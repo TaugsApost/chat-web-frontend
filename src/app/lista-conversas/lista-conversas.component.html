@@ -1,0 +1,15 @@
+<form style="margin-top: 0;">
+    <div class="formgrid grid">
+        <div class="col-12 field mb-3">
+            <div class="p-inputgroup">
+                <input type="text" pInputText class="p-inputtext" [placeholder]="'Pesquisar Conversas'">
+                <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+            </div>
+        </div>
+        <div style="height: 70vh; overflow-y: auto; border-top: 1px solid var(--surface-500);" class="col-12 mt-3">
+            <div *ngFor="let conversa of listaConversas" class="col-12 field mt-3">
+                <app-item-conversa [itemConversa]="conversa"></app-item-conversa>
+            </div>
+        </div>
+    </div>
+</form>

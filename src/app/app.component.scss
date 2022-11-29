@@ -1,0 +1,12 @@
+:host ::ng-deep {
+    .p-card {
+        background-color: var(--surface-300);
+    }
+
+    .mensagem-box {
+        .p-card {
+            background-color: var(--surface-500);
+        }
+    }
+
+}

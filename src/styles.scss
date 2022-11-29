@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    // background-color: var(--blue-900);
+    background-image: linear-gradient(to right, var(--surface-900), var(--surface-900), var(--surface-900), var(--surface-900));
+}
+
+input {
+    width: 100%;
+}
+
+input.ng-invalid {
+    border-color: red !important;
+}
+
+input.ng-invalid~label {
+    color: red;
+}
+
+p-dropdown.ng-invalid:not(form)>div {
+    border-color: red !important;
+    color: red;
+}
+
+p-dropdown>div {
+    width: 100% !important;
+}
+
+.invalid {
+
+    .p-editor-content,
+    .p-editor-toolbar {
+        border-color: red !important;
+        color: red;
+    }
+}

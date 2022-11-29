@@ -1,0 +1,44 @@
+<p-table [value]="dataSource" [columns]="columns" [paginator]="true" [rows]="20" selectionMode="single"
+    styleClass="p-datatable-gridlines p-datatable-striped" responsiveLayout="scroll" styleClass="p-datatable-sm">
+    <ng-template pTemplate="caption">
+        <h4 [style]="{'text-align': align, 'padding': '0', 'margin': '0'}">{{titulo}}</h4>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of columns" pSortableColumn="{{col.value}}"
+                [style]="{'width': (col.size == null?'43%':col.size),'text-align':col.align}">{{col.nome}}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td [attr.colspan]="columns.length">
+                <p style="width: 100%;" class="text-center" *ngIf="dataSource.lenght != 0">
+                    Nenhum registro encontrado
+                </p>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dataSource>
+        <tr>
+            <td *ngFor="let col of columns" [style]="{'text-align':col.align}">
+                <label>
+                    {{dataSource[col.value]}}
+                    <label *ngIf="col.value == 'actions'">
+                        <button *ngIf="habVisualizar" pTooltip="Visualizar {{dataSource[tooltip]}}" pButton pRipple
+                            icon="pi pi-eye" class="p-button-text p-button-rounded p-button-success"
+                            (click)="botaoVisualizar(dataSource)"></button>
+                        <label *ngIf="habVisualizar">&nbsp;</label>
+                        <button *ngIf="habEditar" pTooltip="Editar {{dataSource[tooltip]}}" pButton pRipple
+                            icon="pi pi-pencil" class="p-button-text p-button-rounded p-button-warning"
+                            (click)="botaoEditar(dataSource)"></button>
+                        <label *ngIf="habEditar">&nbsp;</label>
+                        <button *ngIf="habDeletar" pTooltip="Exlcuir {{dataSource[tooltip]}}" pButton pRipple
+                            icon="pi pi-trash" class="p-button-text p-button-rounded p-button-danger"
+                            (click)="botaoDeletar(dataSource)">
+                        </button>
+                    </label>
+                </label>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

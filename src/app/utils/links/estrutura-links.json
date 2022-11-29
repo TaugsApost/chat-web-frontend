@@ -1,0 +1,14 @@
+{
+    "comum": {
+        "urlSimulador": "http://localhost:8080/simulador/rest/",
+        "salvar": "/salvar",
+        "editar": "/editar",
+        "detalhar": "/detalhar",
+        "listar": "/listarTodos",
+        "excluir": "/excluir",
+        "buscar": "/buscar"
+    },
+    "time": {
+        "caminho": "time"
+    }
+}
