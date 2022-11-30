@@ -1,8 +1,4 @@
-:host ::ng-deep {
-    .mensagem-box {
-        .p-card {
-            background-color: var(--surface-800);
-            height: 100%;
-        }
-    }
+.content-page {
+    height: 90vh;
+    max-height: 90vh;
 }

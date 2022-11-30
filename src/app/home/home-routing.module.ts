@@ -2,11 +2,22 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
+import { PaginaCreditosComponent } from './pagina-creditos/pagina-creditos.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    children: [
+      {
+        path: '',
+        component: PaginaCreditosComponent
+      },
+      {
+        path: 'conversa',
+        loadChildren: () => import('../conversa/conversa.module').then(x => x.ConversaModule),
+      }
+    ]
   }
 ];
 
