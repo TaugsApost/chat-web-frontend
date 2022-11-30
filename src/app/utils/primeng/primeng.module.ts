@@ -32,10 +32,14 @@ import { SliderModule } from 'primeng/slider';
 import { InplaceModule } from 'primeng/inplace';
 import { ScrollerModule } from 'primeng/scroller';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { StyleClassModule } from 'primeng/styleclass';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @NgModule({
   exports: [
+    ProgressSpinnerModule,
+    StyleClassModule,
     VirtualScrollerModule,
     InplaceModule,
     ScrollerModule,

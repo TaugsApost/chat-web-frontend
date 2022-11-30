@@ -14,13 +14,13 @@ export abstract class BaseService<Filter, Entity>{
     url: string;
 
     constructor(caminho: string, http: HttpClient) {
-        this.urlSalvar = this.restMap.comum.urlSimulador + caminho + this.restMap.comum.salvar;
-        this.urlListar = this.restMap.comum.urlSimulador + caminho + this.restMap.comum.listar;
-        this.urlExcluir = this.restMap.comum.urlSimulador + caminho + this.restMap.comum.excluir;
-        this.urlBuscar = this.restMap.comum.urlSimulador + caminho + this.restMap.comum.buscar;
-        this.urlDetalhar = this.restMap.comum.urlSimulador + caminho + this.restMap.comum.detalhar;
+        this.urlSalvar = this.restMap.comum.url + caminho + this.restMap.comum.salvar;
+        this.urlListar = this.restMap.comum.url + caminho + this.restMap.comum.listar;
+        this.urlExcluir = this.restMap.comum.url + caminho + this.restMap.comum.excluir;
+        this.urlBuscar = this.restMap.comum.url + caminho + this.restMap.comum.buscar;
+        this.urlDetalhar = this.restMap.comum.url + caminho + this.restMap.comum.detalhar;
         this.http = http;
-        this.url = this.restMap.comum.urlSimulador + caminho;
+        this.url = this.restMap.comum.url + caminho;
     }
 
     salvar(entity: Entity): Observable<any> {

@@ -1,6 +1,6 @@
 {
     "comum": {
-        "urlSimulador": "http://localhost:8080/chat/rest/",
+        "url": "http://localhost:8080/chat/rest/",
         "salvar": "/salvar",
         "editar": "/editar",
         "detalhar": "/detalhar",

@@ -1,30 +1,55 @@
 export class Usuario {
-    id = 0;
+    username = '';
     nome = '';
     senha = '';
-    userName = '';
-    permissao = false;
     listaDeContatos: Contato[] = [];
-    listaDeConversas: UsuarioConversa[] = [];
+    listaMensagensEnviadas: MensagemChat[] = [];
+    listaMensagensRecebidas: MensagemChat[] = [];
+    listaGrupos: Participante[] = [];
 }
-export class UsuarioConversa {
-    idUsuario = 0;
-    idConversa = 0;
-    nomeConversa = '';
-    listaDeMensagens: UsuarioConversaMensagem[] = [];
+export class Contato {
+    usernameUsuario = '';
+    usernameContato = '';
+    nomeContato = '';
+    contato: Usuario = new Usuario;
 }
-export class UsuarioConversaMensagem {
-    idUsuario = 0;
-    idConversa = 0;
-    idMensagem = 0;
-    mensagem: Mensagem = new Mensagem;
+export class Conversa {
+    username1 = '';
+    username2 = '';
 }
-export class Conversa { }
+export class Grupo {
+    id = 0;
+    nome = '';
+    dataCriacao = null;
+    dataAlteracao: any = null;
+    listaParticipantes: Participante[] = [];
+}
+export class Login {
+    username = '';
+    senha = '';
+}
 export class Mensagem {
     id = 0;
-    idUsuario = 0;
-    idConversa = 0;
+    dataEnvio: any = null;
     conteudo = '';
-    dataEnvio = new Date;
 }
-export class Contato { }
+export class MensagemChat {
+    id = 0;
+    dataEnvio: any = null;
+    conteudo = '';
+    usernameEmissor = '';
+    usernameReceptor = '';
+}
+export class MensagemGrupo {
+    id = 0;
+    dataEnvio: any = null;
+    conteudo = '';
+    idGrupo = 0;
+    username = '';
+}
+export class Participante {
+    username = '';
+    idGrupo = 0;
+    dataInscricao: any = null;
+    listaDeMensagens: MensagemGrupo[] = [];
+}

@@ -1,6 +1,6 @@
 import { Component, Directive, HostBinding, Input, OnInit, Optional } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup } from '@angular/forms';
-import { UsuarioConversa, UsuarioConversaMensagem } from '../model/chat-web-model.model';
+import { MensagemChat } from '../model/chat-web-model.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -10,9 +10,10 @@ import { DatePipe } from '@angular/common';
 })
 export class ItemConversaComponent implements OnInit {
 
-  @Input() itemConversa: UsuarioConversa = new UsuarioConversa;
+  @Input() itemConversa: MensagemChat = new MensagemChat;
 
   formItemConversa: FormGroup;
+  tituloConversa: string = '';
   private datepipe: DatePipe = new DatePipe('en-US');
 
   constructor() {
@@ -24,27 +25,42 @@ export class ItemConversaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.itemConversa.nomeConversa);
-    this.formItemConversa.controls['nomeconversa'].setValue(this.itemConversa.nomeConversa);
-    this.ultimaConversa();
+    //console.log(this.itemConversa.nomeConversa);
+    this.formItemConversa.controls['nomeconversa'].setValue(this.itemConversa.usernameEmissor);
+    this.formItemConversa.controls['ultimaMensagem'].setValue(this.itemConversa.conteudo);
+    let formattedDate = this.datepipe.transform(this.itemConversa.dataEnvio, 'dd/MM/YYYY')
+    this.formItemConversa.controls['data'].setValue(formattedDate);
+    this.gerarTitulo();
+    //this.ultimaConversa();
   }
 
-  private ultimaConversa() {
-    let mensagem: UsuarioConversaMensagem = new UsuarioConversaMensagem;
-    this.itemConversa.listaDeMensagens.forEach(msg => {
-      if (msg.idMensagem >= mensagem.idMensagem) {
-        mensagem = msg;
-      }
-    });
-    this.formItemConversa.controls['ultimaMensagem'].setValue(mensagem.mensagem.conteudo);
-    let formattedDate = this.datepipe.transform(mensagem.mensagem.dataEnvio, 'dd/MM/YYYY')
-    this.formItemConversa.controls['data'].setValue(formattedDate);
+  private gerarTitulo() {
+    let username = window.sessionStorage.getItem('username');
+    console.log(username);
+    if (username == this.itemConversa.usernameEmissor) {
+      this.tituloConversa = this.itemConversa.usernameReceptor;
+    } else {
+      this.tituloConversa = this.itemConversa.usernameEmissor;
+    }
   }
+
+  // private ultimaConversa() {
+  //   let mensagem: UsuarioConversaMensagem = new UsuarioConversaMensagem;
+  //   this.itemConversa.listaDeMensagens.forEach(msg => {
+  //     if (msg.idMensagem >= mensagem.idMensagem) {
+  //       mensagem = msg;
+  //     }
+  //   });
+  //   this.formItemConversa.controls['ultimaMensagem'].setValue(mensagem.mensagem.conteudo);
+  //   let formattedDate = this.datepipe.transform(mensagem.mensagem.dataEnvio, 'dd/MM/YYYY')
+  //   this.formItemConversa.controls['data'].setValue(formattedDate);
+  // }
 
   salvarIdConversa() {
-    window.localStorage.setItem('idConversa', this.itemConversa.idConversa.toString());
-    window.localStorage.setItem('idUsuario', this.itemConversa.idUsuario.toString());
+    window.localStorage.setItem('idConversa', this.itemConversa.usernameEmissor);
+    window.localStorage.setItem('idUsuario', this.itemConversa.usernameReceptor);
   }
+
 }
 @Directive({
   selector: 'label[controlName]',

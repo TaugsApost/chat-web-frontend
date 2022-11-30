@@ -3,18 +3,16 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <img class="mb-4" src="/assets/imagens/logo_home_2.png" alt="" width="120" height="120">
       <h1 class="h3 mb-3 fw-normal text-light">Cadastro</h1>
-
+      <div class="form-floating mb-2">
+        <input type="text" formControlName="nome" class="form-control" id="floatingInputName" placeholder="Nome">
+        <label for="floatingInputName">Nome</label>
+      </div>
       <div class="form-floating mb-2">
         <input type="text" formControlName="username" class="form-control" id="floatingInputUser" placeholder="Usuário">
         <label for="floatingInputUser">Usuário</label>
       </div>
-      <div class="form-floating mb-2">
-        <input type="text" formControlName="name" class="form-control" id="floatingInputName" placeholder="Nome">
-        <label for="floatingInputName">Nome</label>
-      </div>
       <div class="form-floating mb-5">
-        <input type="password" formControlName="password" class="form-control" id="floatingPassword"
-          placeholder="Senha">
+        <input type="password" formControlName="senha" class="form-control" id="floatingPassword" placeholder="Senha">
         <label for="floatingPassword">Senha</label>
       </div>
       <div class="button mb-3">
