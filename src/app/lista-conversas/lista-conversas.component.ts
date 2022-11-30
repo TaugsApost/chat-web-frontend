@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { StorageService } from '../login/service/storege.service';
 import { MensagemChat } from './model/chat-web-model.model';
 import { MensagemService } from './service/mensagem.service';
@@ -11,8 +12,13 @@ import { MensagemService } from './service/mensagem.service';
 export class ListaConversasComponent implements OnInit {
 
   listaConversas: MensagemChat[] = [];
+  form: FormGroup
 
-  constructor(private mensagemService: MensagemService, private storageService: StorageService) { }
+  constructor(private mensagemService: MensagemService, private storageService: StorageService) {
+    this.form = new FormGroup({
+      filtro: new FormControl('')
+    });
+  }
 
   ngOnInit(): void {
     this.carregarConversas();
@@ -28,7 +34,26 @@ export class ListaConversasComponent implements OnInit {
   }
 
   private carregarConversas() {
-    this.mensagemService.listarConversas(this.storageService.getUsername()).subscribe(listaConversas => {
+    this.mensagemService.listarConversas(this.storageService.getUsername(), '').subscribe(listaConversas => {
+      if (listaConversas.length > 0) {
+        listaConversas.forEach(conversa => {
+          this.listaConversas.push(
+            {
+              id: conversa.id,
+              dataEnvio: conversa.dataEnvio,
+              conteudo: conversa.conteudo,
+              usernameEmissor: conversa.usernameEmissor,
+              usernameReceptor: conversa.usernameReceptor
+            }
+          )
+        });
+      }
+    })
+  }
+
+  pesquisarConversas() {
+    this.mensagemService.listarConversas(this.storageService.getUsername(), this.form.controls['filtro'].value).subscribe(listaConversas => {
+      this.listaConversas = [];
       if (listaConversas.length > 0) {
         listaConversas.forEach(conversa => {
           this.listaConversas.push(

@@ -1,8 +1,9 @@
-<form style="margin-top: 0;">
+<form [formGroup]="form" style="margin-top: 0;">
     <div class="formgrid grid">
         <div class="col-12 field mb-3">
             <div class="p-inputgroup">
-                <input type="text" pInputText class="p-inputtext" [placeholder]="'Pesquisar Conversas'">
+                <input type="text" formControlName="filtro" pInputText class="p-inputtext"
+                    [placeholder]="'Pesquisar Conversas'" (change)="pesquisarConversas()">
                 <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
             </div>
         </div>

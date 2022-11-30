@@ -13,8 +13,8 @@ export class MensagemService extends BaseService<Mensagem, Mensagem>{
     super('mensagem', _http)
   }
 
-  listarConversas(username: string): Observable<MensagemChat[]> {
-    return this._http.post<MensagemChat[]>(this.url + '/listarConversas', username);
+  listarConversas(username: string, filtro: string): Observable<MensagemChat[]> {
+    return this._http.post<MensagemChat[]>(this.url + '/listarConversas', { username: username, filtro: filtro });
   }
 
 }
