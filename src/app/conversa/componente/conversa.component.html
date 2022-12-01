@@ -14,15 +14,19 @@
     </div>
     <div class="col-12 bg-white border-round-md border-noround-top border-top-1"
         style="height: 15%">
-        <div class="col-12 field">
-            <div class="p-inputgroup my-4">
-                <input type="text"
-                    pInputText
-                    class="p-inputtext"
-                    placeholder="Mensagem">
-                <span class="p-inputgroup-addon"><i class="pi pi-send"></i></span>
+        <form (ngSubmit)="enviarMensagem()"
+            [formGroup]="form">
+            <div class="col-12 field">
+                <div class="p-inputgroup my-4">
+                    <input type="text"
+                        pInputText
+                        class="p-inputtext"
+                        placeholder="Mensagem"
+                        formControlName="mensagem">
+                    <span class="p-inputgroup-addon cursor-pointer"
+                        (click)="enviarMensagem()"><i class="pi pi-send"></i></span>
+                </div>
             </div>
-        </div>
-
+        </form>
     </div>
 </div>

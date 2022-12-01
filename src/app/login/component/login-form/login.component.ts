@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
       this.service.logar(this.form.value).subscribe((response: Usuario) => {
         this.storegeService.saveUser(response);
         this.route.navigate(['/home']);
+        this.reloadPage();
       },
         erro => {
           this.msgService.mostrarMensagem('Falha de Autentificação', 'Não foi possível efetuar o Login. Usuario ou senha incorretos')

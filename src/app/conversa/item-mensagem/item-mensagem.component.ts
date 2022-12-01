@@ -21,7 +21,7 @@ export class ItemMensagemComponent implements OnInit {
     this.criarLabelHora();
   }
   private criarLabelHora() {
-    let formattedDate = this.datepipe.transform(this.mensagem.dataEnvio, 'hh:mm')
+    let formattedDate = this.datepipe.transform(this.mensagem.dataEnvio, 'HH:mm')
     if (formattedDate) {
       this.hora = formattedDate;
     }
