@@ -6,6 +6,7 @@ import { PrimengModule } from '../utils/primeng/primeng.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { ListaConversasModule } from '../lista-conversas/lista-conversas.module';
 import { PaginaCreditosComponent } from './pagina-creditos/pagina-creditos.component';
+import { HeaderModule } from '../header/header.module';
 
 
 
@@ -20,6 +21,7 @@ import { PaginaCreditosComponent } from './pagina-creditos/pagina-creditos.compo
     ReactiveFormsModule,
     HomeRoutingModule,
     ListaConversasModule,
+    HeaderModule
   ]
 })
 export class HomeModule { }

@@ -56,4 +56,21 @@ export class MensagensService {
       });
     });
   }
+  mostrarMensagemSimNao(titulo: string, texto: string, icone?: string) {
+    return new Promise<boolean>(resolve => {
+      this.confirmationService.confirm({
+        message: texto,
+        header: titulo,
+        icon: icone,
+        rejectVisible: true,
+        key: 'excluir',
+        accept: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        }
+      });
+    });
+  }
 }

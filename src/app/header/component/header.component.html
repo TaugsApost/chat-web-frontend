@@ -1,0 +1,49 @@
+<div class="formgrid grid m-0 p-0 flex justify-content-end">
+    <div class="col-12 grid m-0 p-0 flex align-items-center">
+        <div class="col-9">
+            <span class="m-0 p-0"
+                pTooltip=""><i class="pi pi-user border-circle p-3 shadow-1 cursor-pointer"></i></span>
+        </div>
+        <div class="col-2">
+            <span class="m-0 p-0"
+                pTooltip="Nova Conversa"><i class="pi pi-comment border-circle p-3 shadow-1 cursor-pointer"></i></span>
+        </div>
+        <div pTooltip="Mais Opções"
+            class="col-1"
+            pStyleClass=".mais-opcoes"
+            enterClass="hidden"
+            enterActiveClass="scalein"
+            leaveToClass="hidden"
+            leaveActiveClass="fadeout"
+            [hideOnOutsideClick]="true">
+            <span class="m-0 p-0"><i class="pi pi-ellipsis-v border-circle p-1 cursor-pointer"></i></span>
+        </div>
+    </div>
+    <div class="col-12 formgrid grid m-0 p-0 flex justify-content-end relative">
+        <div class="left-100 w-max grid border-1 mt-1 absolute shadow-5 py-1 hidden surface-card mais-opcoes">
+            <ul pStyleClass="@parent"
+                leaveToClass="hidden"
+                leaveActiveClass="fadeout"
+                class="list-none p-0 m-0">
+                <li>
+                    <span class="block p-3 no-underline py-2 px-3 
+                                    hover:surface-500 transition-all transition-duration-500 
+                                    text-black-alpha-90 cursor-pointer"><i class="pi pi-plus-circle mr-3"></i> Novo Grupo</span>
+                </li>
+                <li>
+                    <span class="block p-3 no-underline py-2 px-3 hover:surface-500 transition-all transition-duration-500 text-black-alpha-90 cursor-pointer"
+                        (click)="displayAddContato = true"><i class="pi pi-plus-circle mr-3"></i> Adicionar Contato</span>
+                </li>
+                <li>
+                    <span class="block 
+                    p-3 no-underline py-2 px-3 
+                    hover:surface-500 transition-all transition-duration-500 
+                    text-black-alpha-90 cursor-pointer"
+                        (click)="logout()"><i class="pi pi-sign-out mr-3"></i> Desconectar</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<modal-add-contato [display]="displayAddContato"
+    (fechar)="displayAddContato = false"></modal-add-contato>

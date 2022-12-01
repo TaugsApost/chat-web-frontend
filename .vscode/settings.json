@@ -1,0 +1,16 @@
+{
+  "editor.formatOnPaste": true,
+  "prettier.singleQuote": false,
+  "prettier.trailingComma": "none",
+  "prettier.disableLanguages": [
+    "html"
+  ],
+  "editor.formatOnSave": true,
+  "editor.rulers": [
+    999
+  ],
+  "html.format.wrapAttributes": "force",
+  "html.format.enable": true,
+  "html.format.wrapLineLength": 999,
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}

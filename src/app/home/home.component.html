@@ -1,8 +1,16 @@
-<div class="col-12 mt-0 flex justify-content-around align-items-start">
-    <div class="col-4">
-        <p-card [style]="{'color':'black', 'opacity':'0.4'}" header="">
-            <app-lista-conversas></app-lista-conversas>
-        </p-card>
+<div class="col-12 mt-3 flex justify-content-around align-items-start">
+    <div class="col-4 flex grid justify-content-start">
+        <div class="col-12">
+            <header class="p-2 surface-700 shadow-5 border-1 border-round"
+                [style]="{margin: 0, padding:0}"></header>
+        </div>
+        <div class="col-12 field">
+            <p-card [style]="{'color':'black', 'opacity':'0.4'}"
+                header="">
+                <app-lista-conversas></app-lista-conversas>
+            </p-card>
+        </div>
+
     </div>
     <div class="col-7">
         <div class="content-page">

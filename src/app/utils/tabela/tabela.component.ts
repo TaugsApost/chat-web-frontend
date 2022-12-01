@@ -15,11 +15,13 @@ export class TabelaComponent implements OnInit {
   @Input() habVisualizar: boolean = true;
   @Input() habDeletar: boolean = true;
   @Input() habEditar: boolean = true;
+  @Input() habAdicionar: boolean = true;
   @Input() tooltip: string = '';
 
   @Output() deletar = new EventEmitter<any>();
   @Output() visualizar = new EventEmitter<any>();
   @Output() editar = new EventEmitter<any>();
+  @Output() adicionar = new EventEmitter<any>();
 
   constructor() { }
 
@@ -34,6 +36,9 @@ export class TabelaComponent implements OnInit {
   }
   botaoEditar(item: any) {
     this.editar.emit(item)
+  }
+  botaoAdicionar(item: any) {
+    this.adicionar.emit(item);
   }
 
 }

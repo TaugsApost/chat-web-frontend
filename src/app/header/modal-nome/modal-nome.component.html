@@ -1,0 +1,31 @@
+<p-dialog [(visible)]="display"
+    (onHide)="fecharModal()"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    [draggable]="false"
+    [resizable]="false"
+    [breakpoints]="{'960px': '75vw'}"
+    header="Adicionar Contato">
+    <form [formGroup]="formulario">
+        <div class="grid text-color">
+            <div class="col-12 flex">
+                <div class="col-10">
+                    <input type="text"
+                        pInputText
+                        class="p-inputtext"
+                        formControlName="nome"
+                        placeholder="Nome do Contato">
+                </div>
+                <div class="col-2">
+                    <button pButton
+                        pRipple
+                        type="button"
+                        label="Adicionar"
+                        class="p-button-raised p-button-success"
+                        (click)="escolherNome()">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</p-dialog>

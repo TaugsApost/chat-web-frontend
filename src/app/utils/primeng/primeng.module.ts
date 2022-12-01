@@ -34,10 +34,12 @@ import { ScrollerModule } from 'primeng/scroller';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 
 @NgModule({
   exports: [
+    OverlayPanelModule,
     ProgressSpinnerModule,
     StyleClassModule,
     VirtualScrollerModule,

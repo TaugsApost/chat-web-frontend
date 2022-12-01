@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from 'rxjs';
+import { StorageService } from "src/app/login/service/storege.service";
 
 @Injectable({
     providedIn: 'root'
@@ -7,8 +8,8 @@ import { BehaviorSubject } from 'rxjs';
 export class LoaderService {
     visibility: BehaviorSubject<boolean>;
 
-    constructor() {
-        this.visibility = new BehaviorSubject(false);
+    constructor(private storageService: StorageService) {
+        this.visibility = new BehaviorSubject(storageService.isLoggin() ? true : false);
     }
 
     show() {

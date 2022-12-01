@@ -7,11 +7,15 @@ export class Usuario {
     listaMensagensRecebidas: MensagemChat[] = [];
     listaGrupos: Participante[] = [];
 }
+export class UsuarioResponse {
+    userName = '';
+    nome = '';
+}
 export class Contato {
     usernameUsuario = '';
     usernameContato = '';
     nomeContato = '';
-    contato: Usuario = new Usuario;
+    //contato: Usuario = new Usuario;
 }
 export class Conversa {
     username1 = '';
