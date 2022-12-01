@@ -43,6 +43,7 @@ export class MensagemChat {
     conteudo = '';
     usernameEmissor = '';
     usernameReceptor = '';
+    emissor?: boolean = false;
 }
 export class MensagemGrupo {
     id = 0;

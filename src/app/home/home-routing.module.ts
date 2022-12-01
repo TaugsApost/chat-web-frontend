@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { PaginaCreditosComponent } from './pagina-creditos/pagina-creditos.component';
+import { ConversaModule } from '../conversa/conversa.module';
 
 const routes: Routes = [
   {

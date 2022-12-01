@@ -12,6 +12,7 @@ import { MensagensModule } from './utils/mensagens/mensagens.module';
 import { PrimengModule } from './utils/primeng/primeng.module';
 import { LoaderInterceptador } from './utils/interceptador/loader-interceptador';
 import { LoaderModule } from './utils/loader/loader.module';
+import { ConversaModule } from './conversa/conversa.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { LoaderModule } from './utils/loader/loader.module';
     PrimengModule,
     ReactiveFormsModule,
     ListaConversasModule,
-    LoaderModule
+    LoaderModule,
+    ConversaModule
   ],
   providers: [
     {

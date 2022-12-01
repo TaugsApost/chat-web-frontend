@@ -9,6 +9,6 @@ import { BaseService } from 'src/app/utils/classes-bases/service.service';
 export class ConversaService extends BaseService<Conversa, Conversa>{
 
   constructor(private _http: HttpClient) {
-    super('home', _http);
+    super('conversa', _http);
   }
 }

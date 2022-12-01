@@ -1,0 +1,12 @@
+<div [ngClass]="emissor?'justify-content-end':'justify-content-start'"
+    class="grid flex mt-3">
+    <div [ngClass]="emissor?'surface-300':'surface-900 text-white'"
+        class="col-5 border-round shadow-4">
+        <p style="overflow-wrap: break-word;"
+            class="text-xs pt-2 m-0">{{mensagem.conteudo}}</p>
+        <div class="col-12 flex justify-content-end">
+            <label class="text-xs text-center pb-1"
+                for="">{{hora}}</label>
+        </div>
+    </div>
+</div>

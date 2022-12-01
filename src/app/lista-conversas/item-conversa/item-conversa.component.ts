@@ -1,7 +1,9 @@
 import { Component, Directive, HostBinding, Input, OnInit, Optional } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup } from '@angular/forms';
-import { MensagemChat } from '../model/chat-web-model.model';
+import { Conversa, MensagemChat } from '../model/chat-web-model.model';
 import { DatePipe } from '@angular/common';
+import { StorageService } from 'src/app/login/service/storege.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-conversa',
@@ -16,7 +18,7 @@ export class ItemConversaComponent implements OnInit {
   tituloConversa: string = '';
   private datepipe: DatePipe = new DatePipe('en-US');
 
-  constructor() {
+  constructor(private storageService: StorageService, private router: Router) {
     this.formItemConversa = new FormGroup({
       nomeconversa: new FormControl(),
       ultimaMensagem: new FormControl(),
@@ -25,40 +27,42 @@ export class ItemConversaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.itemConversa.nomeConversa);
     this.formItemConversa.controls['nomeconversa'].setValue(this.itemConversa.usernameEmissor);
     this.formItemConversa.controls['ultimaMensagem'].setValue(this.itemConversa.conteudo);
     let formattedDate = this.datepipe.transform(this.itemConversa.dataEnvio, 'dd/MM/YYYY')
     this.formItemConversa.controls['data'].setValue(formattedDate);
     this.gerarTitulo();
-    //this.ultimaConversa();
   }
 
   private gerarTitulo() {
     let username = window.sessionStorage.getItem('username');
     console.log(username);
     if (username == this.itemConversa.usernameEmissor) {
-      this.tituloConversa = this.itemConversa.usernameReceptor;
+      this.tituloConversa = this.buscarNomeContato(this.itemConversa.usernameReceptor);
     } else {
-      this.tituloConversa = this.itemConversa.usernameEmissor;
+      this.tituloConversa = this.buscarNomeContato(this.itemConversa.usernameEmissor);
     }
   }
 
-  // private ultimaConversa() {
-  //   let mensagem: UsuarioConversaMensagem = new UsuarioConversaMensagem;
-  //   this.itemConversa.listaDeMensagens.forEach(msg => {
-  //     if (msg.idMensagem >= mensagem.idMensagem) {
-  //       mensagem = msg;
-  //     }
-  //   });
-  //   this.formItemConversa.controls['ultimaMensagem'].setValue(mensagem.mensagem.conteudo);
-  //   let formattedDate = this.datepipe.transform(mensagem.mensagem.dataEnvio, 'dd/MM/YYYY')
-  //   this.formItemConversa.controls['data'].setValue(formattedDate);
-  // }
+  private buscarNomeContato(username: string): string {
+    let contato = this.storageService.getUser().listaDeContatos.find(c => c.usernameContato == username);
+    if (contato != null) {
+      return contato.nomeContato;
+    } else {
+      return username;
+    }
+  }
 
-  salvarIdConversa() {
-    window.localStorage.setItem('idConversa', this.itemConversa.usernameEmissor);
-    window.localStorage.setItem('idUsuario', this.itemConversa.usernameReceptor);
+  salvarConversa() {
+    let conversa: Conversa = {
+      username1: this.storageService.getUsername(),
+      username2: this.storageService.getUsername() == this.itemConversa.usernameEmissor ?
+        this.itemConversa.usernameReceptor : this.itemConversa.usernameEmissor
+    }
+    this.storageService.saveConversa(conversa);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/home/conversa']);
+    });
   }
 
 }

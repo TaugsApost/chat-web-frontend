@@ -1,1 +1,28 @@
-<p>conversa works!</p>
+<div class="formgrid grid border-1 shadow-5 border-round-md bg-white"
+    style="height: 37rem; min-height: 37rem; max-height: 37rem;">
+    <div class="col-12 surface-500 border-bottom-1 shadow-3 border-round-md border-noround-bottom"
+        style="height: 10%;">
+        <label class="pt-3 text-xl font-semibold">{{_storageService.getNomeContato()}}</label>
+    </div>
+    <div class="col-12 border-round flex flex-wrap-reverse"
+        style="height: 70%; overflow-y: auto; ">
+        <div *ngFor="let msg of listaMensagens"
+            class="col-12 field">
+            <app-item-mensagem [emissor]="msg.emissor"
+                [mensagem]="msg"></app-item-mensagem>
+        </div>
+    </div>
+    <div class="col-12 bg-white border-round-md border-noround-top border-top-1"
+        style="height: 15%">
+        <div class="col-12 field">
+            <div class="p-inputgroup my-4">
+                <input type="text"
+                    pInputText
+                    class="p-inputtext"
+                    placeholder="Mensagem">
+                <span class="p-inputgroup-addon"><i class="pi pi-send"></i></span>
+            </div>
+        </div>
+
+    </div>
+</div>

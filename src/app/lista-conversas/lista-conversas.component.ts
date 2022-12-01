@@ -22,15 +22,6 @@ export class ListaConversasComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarConversas();
-    // this.listaConversas.push(
-    //   {
-    //     id: 0,
-    //     dataEnvio: new Date,
-    //     conteudo: 'Mensagem de teste absurdamente grande para resolver qualter tipo de espacamento para o meu prjeto ficar bem bonito e legal',
-    //     usernameEmissor: 'Taugs',
-    //     usernameReceptor: 'Teste'
-    //   }
-    // )
   }
 
   private carregarConversas() {
