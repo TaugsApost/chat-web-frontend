@@ -38,6 +38,9 @@ export class ListaConversasComponent implements OnInit {
             }
           )
         });
+        this.listaConversas.sort((a, b) => (
+          a.dataEnvio > b.dataEnvio ? -1 : 1
+        ));
       }
     })
   }

@@ -37,20 +37,12 @@ export class Mensagem {
     dataEnvio: any = null;
     conteudo = '';
 }
-export class MensagemChatClone {
-    id = 0;
-    dataEnvio: any = null;
-    conteudo = '';
-    usernameEmissor = '';
-    usernameReceptor = '';
-}
 export class MensagemChat {
     id = 0;
     dataEnvio: any = null;
     conteudo = '';
     usernameEmissor = '';
     usernameReceptor = '';
-    emissor?: boolean = false;
 }
 export class MensagemGrupo {
     id = 0;

@@ -8,7 +8,7 @@
         style="height: 70%; overflow-y: auto; ">
         <div *ngFor="let msg of listaMensagens"
             class="col-12 field">
-            <app-item-mensagem [emissor]="msg.emissor"
+            <app-item-mensagem [emissor]="msg.usernameEmissor == _storageService.getUsername()"
                 [mensagem]="msg"></app-item-mensagem>
         </div>
     </div>

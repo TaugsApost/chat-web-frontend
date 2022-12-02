@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MensagemChat, MensagemChatClone } from 'src/app/lista-conversas/model/chat-web-model.model';
+import { MensagemChat } from 'src/app/lista-conversas/model/chat-web-model.model';
 import { MensagemService } from 'src/app/lista-conversas/service/mensagem.service';
 import { StorageService } from 'src/app/login/service/storege.service';
 import { WebSocketService } from 'src/app/websocket/web-socket.service';
@@ -40,7 +40,6 @@ export class ConversaComponent implements OnInit {
   private inicializarConversas() {
     this.listaMensagens = [];
     this.criarListaConversas();
-    this.definirPosicaoMensagem();
   }
 
   private criarListaConversas() {
@@ -50,15 +49,6 @@ export class ConversaComponent implements OnInit {
     this.listaMensagens.sort((a, b) => (
       a.dataEnvio > b.dataEnvio ? -1 : 1
     ));
-  }
-  private definirPosicaoMensagem() {
-    this.listaMensagens.forEach(m => {
-      if (m.usernameEmissor == this.storageService.getUsername()) {
-        m.emissor = true;
-      } else {
-        m.emissor = false;
-      }
-    });
   }
 
   enviarMensagem() {
@@ -70,7 +60,6 @@ export class ConversaComponent implements OnInit {
       let mensagem = new MensagemChat();
       mensagem.conteudo = conteudo;
       mensagem.dataEnvio = new Date;
-      mensagem.emissor = true;
       mensagem.usernameEmissor = username;
       mensagem.usernameReceptor = usernameReceptor;
       user.listaMensagensEnviadas.push(mensagem);
@@ -82,7 +71,7 @@ export class ConversaComponent implements OnInit {
     }
   }
 
-  private enviarMensagemWebsocket(mensagem: MensagemChatClone): void {
+  private enviarMensagemWebsocket(mensagem: MensagemChat): void {
     this._webSocketService.sendMessage(mensagem);
   }
 
@@ -91,7 +80,6 @@ export class ConversaComponent implements OnInit {
       if (mensagem) {
         let tempMensagem = mensagem;
         if (tempMensagem.usernameReceptor == this.storageService.getUsername()) {
-          tempMensagem.emissor = false;
           let user = this.storageService.getUser();
           user.listaMensagensRecebidas.push(tempMensagem);
           this.storageService.saveUser(user);
@@ -103,12 +91,7 @@ export class ConversaComponent implements OnInit {
   }
 
   private salvarMensagem(mensagem: MensagemChat) {
-    let mensagemClone = new MensagemChatClone;
-    mensagemClone.conteudo = mensagem.conteudo;
-    mensagemClone.dataEnvio = mensagem.dataEnvio;
-    mensagemClone.usernameEmissor = mensagem.usernameEmissor;
-    mensagemClone.usernameReceptor = mensagem.usernameReceptor;
-    this.mensagemService.salvarMensagemChat(mensagemClone).subscribe();
+    this.mensagemService.salvarMensagemChat(mensagem).subscribe();
   }
 
 }
