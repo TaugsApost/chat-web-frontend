@@ -1,6 +1,7 @@
 {
     "comum": {
         "url": "http://localhost:8080/chat/rest/",
+        "urlWebSocket": "ws://localhost:8080/chat/rest/",
         "salvar": "/salvar",
         "editar": "/editar",
         "detalhar": "/detalhar",

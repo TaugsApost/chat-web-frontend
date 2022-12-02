@@ -5,6 +5,7 @@ import { PrimengModule } from '../utils/primeng/primeng.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginRoutingModule } from './login-routing.module';
 import { RegisterFormComponent } from './component/register-form/register-form.component';
+import { StorageService } from './service/storege.service';
 
 
 
@@ -20,6 +21,9 @@ import { RegisterFormComponent } from './component/register-form/register-form.c
     LoginRoutingModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    StorageService
   ]
 })
 export class LoginModule { }
