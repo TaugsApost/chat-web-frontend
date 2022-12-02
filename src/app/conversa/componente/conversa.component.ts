@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MensagemChat, MensagemChatClone } from 'src/app/lista-conversas/model/chat-web-model.model';
 import { MensagemService } from 'src/app/lista-conversas/service/mensagem.service';
 import { StorageService } from 'src/app/login/service/storege.service';
+import { WebSocketService } from 'src/app/websocket/web-socket.service';
 
 @Component({
   selector: 'app-conversa',
@@ -14,13 +15,22 @@ export class ConversaComponent implements OnInit {
   form: FormGroup;
 
   listaMensagens: MensagemChat[] = [];
-  _storageService: any;
+  _storageService: StorageService;
+  _webSocketService: WebSocketService;
 
-  constructor(private storageService: StorageService, private mensagemService: MensagemService) {
+  constructor(
+    private storageService: StorageService,
+    private mensagemService: MensagemService,
+    private webSocketService: WebSocketService,
+  ) {
     this.form = new FormGroup({
       mensagem: new FormControl('')
     });
     this._storageService = storageService;
+    this._webSocketService = webSocketService;
+
+    this._webSocketService.openWebSocket();
+    this.monitorarMensagemWebsocket();
   }
 
   ngOnInit(): void {
@@ -57,7 +67,7 @@ export class ConversaComponent implements OnInit {
       let username = this.storageService.getUsername();
       let usernameReceptor = this.storageService.getUsernameContato();
       let conteudo = this.form.controls['mensagem'].value;
-      let mensagem = new MensagemChat;
+      let mensagem = new MensagemChat();
       mensagem.conteudo = conteudo;
       mensagem.dataEnvio = new Date;
       mensagem.emissor = true;
@@ -68,7 +78,28 @@ export class ConversaComponent implements OnInit {
       this.form.reset();
       this.inicializarConversas();
       this.salvarMensagem(mensagem);
+      this.enviarMensagemWebsocket(mensagem);
     }
+  }
+
+  private enviarMensagemWebsocket(mensagem: MensagemChatClone): void {
+    this._webSocketService.sendMessage(mensagem);
+  }
+
+  private monitorarMensagemWebsocket(): void {
+    this._webSocketService.mensagemRecebida.subscribe((mensagem) => {
+      if (mensagem) {
+        let tempMensagem = mensagem;
+        if (tempMensagem.usernameReceptor == this.storageService.getUsername()) {
+          tempMensagem.emissor = false;
+          let user = this.storageService.getUser();
+          user.listaMensagensRecebidas.push(tempMensagem);
+          this.storageService.saveUser(user);
+          this.listaMensagens.push(tempMensagem);
+          this.inicializarConversas();
+        }
+      }
+    });
   }
 
   private salvarMensagem(mensagem: MensagemChat) {
