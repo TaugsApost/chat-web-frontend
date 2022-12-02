@@ -1,3 +1,39 @@
-<p-dialog [(visible)]="display">
-
+<p-dialog [(visible)]="display"
+    (onHide)="fecharModal()"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    [draggable]="false"
+    [resizable]="false"
+    [breakpoints]="{'960px': '75vw'}"
+    header="Nova Conversa">
+    <form [formGroup]="formulario">
+        <div class="grid text-color">
+            <div class="col-12">
+                <div class="p-inputgroup">
+                    <input type="text"
+                        pInputText
+                        class="p-inputtext"
+                        formControlName="nome"
+                        placeholder="Nome do Contato">
+                    <span class="p-inputgroup-addon cursor-pointer"
+                        (click)="pesquisar()"><i class="pi pi-search"></i></span>
+                </div>
+            </div>
+            <div class="col-12">
+                <taugs-tabela [dataSource]="dataSource"
+                    [tooltip]="'userName'"
+                    [titulo]="'Contatos'"
+                    [columns]="columns"
+                    [habAdicionar]="true"
+                    [habEditar]="false"
+                    [habDeletar]="false"
+                    [habVisualizar]="false"
+                    (editar)="''"
+                    (visualizar)="''"
+                    (deletar)="''"
+                    (adicionar)="criarNovaConversa($event)">
+                </taugs-tabela>
+            </div>
+        </div>
+    </form>
 </p-dialog>

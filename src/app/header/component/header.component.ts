@@ -11,6 +11,7 @@ import { MensagensService } from 'src/app/utils/mensagens/mensagens.service';
 export class HeaderComponent implements OnInit {
 
   displayAddContato: boolean = false;
+  displayNovaConversa: boolean = false;
 
   constructor(private storageService: StorageService, private msgService: MensagensService, private route: Router) { }
 
