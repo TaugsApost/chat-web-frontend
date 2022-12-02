@@ -89,15 +89,11 @@ export class ConversaComponent implements OnInit {
   private monitorarMensagemWebsocket(): void {
     this._webSocketService.mensagemRecebida.subscribe((mensagem) => {
       if (mensagem) {
-        let tempMensagem = mensagem;
-        if (tempMensagem.usernameReceptor == this.storageService.getUsername()) {
-          tempMensagem.emissor = false;
-          let user = this.storageService.getUser();
-          user.listaMensagensRecebidas.push(tempMensagem);
-          this.storageService.saveUser(user);
-          this.listaMensagens.push(tempMensagem);
-          this.inicializarConversas();
-        }
+        const user = this.storageService.getUser();
+        user.listaMensagensRecebidas.push(mensagem);
+        this.storageService.saveUser(user);
+        this.listaMensagens.push(mensagem);
+        this.inicializarConversas();
       }
     });
   }
