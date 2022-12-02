@@ -6,7 +6,8 @@
         </div>
         <div class="col-2">
             <span class="m-0 p-0"
-                pTooltip="Nova Conversa"><i class="pi pi-comment border-circle p-3 shadow-1 cursor-pointer"></i></span>
+                pTooltip="Nova Conversa"
+                (click)="displayNovaConversa = true"><i class="pi pi-comment border-circle p-3 shadow-1 cursor-pointer"></i></span>
         </div>
         <div pTooltip="Mais Opções"
             class="col-1"
@@ -47,3 +48,5 @@
 </div>
 <modal-add-contato [display]="displayAddContato"
     (fechar)="displayAddContato = false"></modal-add-contato>
+<modal-nova-conversa [display]="displayNovaConversa"
+    (fechar)="displayNovaConversa = false"></modal-nova-conversa>
