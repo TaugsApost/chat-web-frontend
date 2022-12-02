@@ -52,7 +52,7 @@ export class ConversaComponent implements OnInit {
   }
 
   enviarMensagem() {
-    if (this.form.controls['mensagem'].value != '') {
+    if ((this.form.controls['mensagem'].value as string).trim() != '') {
       let user = this.storageService.getUser();
       let conteudo = this.form.controls['mensagem'].value;
       let mensagem = new MensagemChat();
@@ -64,7 +64,7 @@ export class ConversaComponent implements OnInit {
       this.storageService.saveUser(user);
       this.form.reset();
       this.inicializarConversas();
-      // this.salvarMensagem(mensagem);
+      this.salvarMensagem(mensagem);
       this.enviarMensagemWebsocket(mensagem);
     }
   }
@@ -74,10 +74,10 @@ export class ConversaComponent implements OnInit {
   }
 
   private monitorarMensagemWebsocket(): void {
-    console.log('testeasda')
     this._webSocketService.mensagemRecebida.subscribe((mensagem) => {
       if (mensagem) {
         if (mensagem.usernameReceptor == this.storageService.getUsername()) {
+
           this.inicializarConversas();
         }
       }
