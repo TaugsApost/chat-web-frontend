@@ -28,16 +28,16 @@ export class ConversaComponent implements OnInit {
     });
     this._storageService = storageService;
     this._webSocketService = webSocketService;
-
-    this._webSocketService.openWebSocket();
     this.monitorarMensagemWebsocket();
   }
 
   ngOnInit(): void {
+    //this.monitorarMensagemWebsocket();
+    console.log('on init')
     this.inicializarConversas();
   }
 
-  private inicializarConversas() {
+  public inicializarConversas() {
     this.listaMensagens = [];
     this.criarListaConversas();
   }
@@ -54,19 +54,17 @@ export class ConversaComponent implements OnInit {
   enviarMensagem() {
     if (this.form.controls['mensagem'].value != '') {
       let user = this.storageService.getUser();
-      let username = this.storageService.getUsername();
-      let usernameReceptor = this.storageService.getUsernameContato();
       let conteudo = this.form.controls['mensagem'].value;
       let mensagem = new MensagemChat();
       mensagem.conteudo = conteudo;
       mensagem.dataEnvio = new Date;
-      mensagem.usernameEmissor = username;
-      mensagem.usernameReceptor = usernameReceptor;
+      mensagem.usernameEmissor = this.storageService.getUsername();
+      mensagem.usernameReceptor = this.storageService.getUsernameContato();
       user.listaMensagensEnviadas.push(mensagem);
       this.storageService.saveUser(user);
       this.form.reset();
       this.inicializarConversas();
-      this.salvarMensagem(mensagem);
+      // this.salvarMensagem(mensagem);
       this.enviarMensagemWebsocket(mensagem);
     }
   }
@@ -76,14 +74,10 @@ export class ConversaComponent implements OnInit {
   }
 
   private monitorarMensagemWebsocket(): void {
+    console.log('testeasda')
     this._webSocketService.mensagemRecebida.subscribe((mensagem) => {
       if (mensagem) {
-        let tempMensagem = mensagem;
-        if (tempMensagem.usernameReceptor == this.storageService.getUsername()) {
-          let user = this.storageService.getUser();
-          user.listaMensagensRecebidas.push(tempMensagem);
-          this.storageService.saveUser(user);
-          this.listaMensagens.push(tempMensagem);
+        if (mensagem.usernameReceptor == this.storageService.getUsername()) {
           this.inicializarConversas();
         }
       }

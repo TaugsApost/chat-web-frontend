@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { StorageService } from '../login/service/storege.service';
+import { WebSocketService } from '../websocket/web-socket.service';
 import { MensagemChat } from './model/chat-web-model.model';
 import { MensagemService } from './service/mensagem.service';
 
@@ -14,7 +15,7 @@ export class ListaConversasComponent implements OnInit {
   listaConversas: MensagemChat[] = [];
   form: FormGroup
 
-  constructor(private mensagemService: MensagemService, private storageService: StorageService) {
+  constructor(private mensagemService: MensagemService, private storageService: StorageService, private webSocketService: WebSocketService) {
     this.form = new FormGroup({
       filtro: new FormControl('')
     });
