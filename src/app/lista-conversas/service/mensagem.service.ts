@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from 'src/app/utils/classes-bases/service.service';
-import { MensagemChat, Mensagem, MensagemGrupo } from '../model/chat-web-model.model';
+import { MensagemChat, Mensagem, MensagemGrupo, MensagemChatClone } from '../model/chat-web-model.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,10 @@ export class MensagemService extends BaseService<Mensagem, Mensagem>{
 
   listarConversas(username: string, filtro: string): Observable<MensagemChat[]> {
     return this._http.post<MensagemChat[]>(this.url + '/listarConversas', { username: username, filtro: filtro });
+  }
+
+  salvarMensagemChat(mensagem: MensagemChatClone): Observable<MensagemChat> {
+    return this._http.post<MensagemChat>(this.url + '/salvarMensagemChat', mensagem);
   }
 
 }
