@@ -120,14 +120,40 @@ export class ListaConversasComponent implements OnInit {
     ));
   }
 
+  private reorganizarListaConversa(id: number) {
+    let username: string = '';
+    let msg = this.listaConversas.find(m => m.id == id);
+    if (msg) {
+      if (msg.usernameEmissor == this.storageService.getUsername()) {
+        username = msg.usernameReceptor;
+      } else {
+        username = msg.usernameEmissor;
+      }
+    }
+    let listaMsgs = this.storageService.getUser().listaMensagensEnviadas.filter(m => m.id != id && m.usernameReceptor == username)
+      .concat(this.storageService.getUser().listaMensagensRecebidas.filter(m => m.id != id && m.usernameEmissor == username));
+    this.listaConversas = this.listaConversas.filter(m => m.id != id);
+    if (listaMsgs.length > 0) {
+      listaMsgs.sort((a, b) => (
+        a.dataEnvio > b.dataEnvio ? -1 : 1
+      ));
+      this.listaConversas.push(listaMsgs[0]);
+    }
+    this.ordernarMensagem();
+  }
+
   private monitorarMensagemWebsocket(): void {
     this.webSocketService.mensagemRecebida.subscribe((mensagem) => {
       if (mensagem) {
-        if (mensagem.usernameReceptor == this.storageService.getUsername()) {
-          this.recebeuMensagem(mensagem);
-        }
-        if (mensagem.usernameEmissor == this.storageService.getUsername()) {
-          this.enviouMensagem(mensagem);
+        if (this.listaConversas.find(m => m.id == mensagem.id) != null) {
+          this.reorganizarListaConversa(mensagem.id);
+        } else {
+          if (mensagem.usernameReceptor == this.storageService.getUsername()) {
+            this.recebeuMensagem(mensagem);
+          }
+          if (mensagem.usernameEmissor == this.storageService.getUsername()) {
+            this.enviouMensagem(mensagem);
+          }
         }
       }
     });
@@ -139,6 +165,10 @@ export class ListaConversasComponent implements OnInit {
       }
     });
     this.monitorarNovosGrupos();
+  }
+
+  private monitorarMensagensExcluidas() {
+
   }
 
   private monitorarNovosGrupos() {
