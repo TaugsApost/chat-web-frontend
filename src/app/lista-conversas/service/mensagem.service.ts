@@ -21,4 +21,8 @@ export class MensagemService extends BaseService<Mensagem, Mensagem>{
     return this._http.post<MensagemChat>(this.url + '/salvarMensagemChat', mensagem);
   }
 
+  deletarMensagemChat(id: number): Observable<String> {
+    return this._http.post<String>(this.url + '/deletarMensagemChat', id);
+  }
+
 }

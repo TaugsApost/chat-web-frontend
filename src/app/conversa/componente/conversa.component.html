@@ -9,7 +9,8 @@
         <div *ngFor="let msg of listaMensagens"
             class="col-12 field">
             <app-item-mensagem [emissor]="msg.usernameEmissor == _storageService.getUsername()"
-                [mensagem]="msg"></app-item-mensagem>
+                [mensagem]="msg"
+                (excluirMensagem)="excluirMensagem(msg)"></app-item-mensagem>
         </div>
     </div>
     <div class="col-12 bg-white border-round-md border-noround-top border-top-1"

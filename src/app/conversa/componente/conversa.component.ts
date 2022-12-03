@@ -69,6 +69,18 @@ export class ConversaComponent implements OnInit {
     }
   }
 
+  excluirMensagem(mensagem: MensagemChat): void {
+    let user = this.storageService.getUser();
+    user.listaMensagensEnviadas = user.listaMensagensEnviadas.filter(m => m.id != mensagem.id);
+    this.storageService.saveUser(user);
+    this.inicializarConversas();
+    this.deletarMensagem(mensagem);
+  }
+
+  deletarMensagem(mensagem: MensagemChat) {
+    this.mensagemService.deletarMensagemChat(mensagem.id).subscribe();
+  }
+
   private enviarMensagemWebsocket(mensagem: MensagemChat): void {
     this._webSocketService.sendMessage(mensagem);
   }
