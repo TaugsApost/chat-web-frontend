@@ -2,6 +2,13 @@
     class="grid flex mt-3">
     <div [ngClass]="emissor?'surface-300':'surface-900 text-white'"
         class="col-5 border-round shadow-4">
+        <!-- <span class="m-0 p-0 icone-excluir-mensagem"
+            pTooltip="Excluir mensagem"
+            tooltipPosition="left"
+            *ngIf="mensagem.usernameEmissor == _storageService.getUsername()"
+            (click)="excluirMessage()">
+            <i class="pi pi-times cursor-pointer"></i>
+        </span> -->
         <p style="overflow-wrap: break-word;"
             class="text-xs pt-2 m-0">{{mensagem.conteudo}}</p>
         <div class="col-12 flex justify-content-end">

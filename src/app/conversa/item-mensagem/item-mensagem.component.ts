@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
 import { Mensagem, MensagemChat } from 'src/app/lista-conversas/model/chat-web-model.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StorageService } from 'src/app/login/service/storege.service';
 
 @Component({
   selector: 'app-item-mensagem',
@@ -11,11 +12,17 @@ export class ItemMensagemComponent implements OnInit {
 
   @Input() emissor: any = true;
   @Input() mensagem: Mensagem = new Mensagem();
+  @Output("excluirMensagem") excluirMensagem: EventEmitter<any> = new EventEmitter();
   private datepipe: DatePipe = new DatePipe('en-US');
 
   hora: string = '';
+  _storageService: StorageService;
 
-  constructor() { }
+  constructor(
+    private storageService: StorageService,
+  ) {
+    this._storageService = storageService;
+  }
 
   ngOnInit(): void {
     this.criarLabelHora();
@@ -25,6 +32,10 @@ export class ItemMensagemComponent implements OnInit {
     if (formattedDate) {
       this.hora = formattedDate;
     }
+  }
+
+  excluirMessage() {
+    this.excluirMensagem.emit();
   }
 
 }
