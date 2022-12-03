@@ -39,7 +39,7 @@ export class GrupoComponent implements OnInit {
   }
 
   private criarListaConversas() {
-    this.listaMensagens = this.storageService.getMensagensGrupo();
+    this.listaMensagens = this.storageService.getMensagensGrupo().filter(m => m.idGrupo == this.storageService.getGrupo().id);
     this.ordernarMensagems();
   }
 
@@ -53,10 +53,10 @@ export class GrupoComponent implements OnInit {
       mensagem.idGrupo = this.storageService.getGrupo().id;
       mensagem.username = this.storageService.getUsername();
       mensagensGrupo.push(mensagem);
-      this.storageService.saveMensagensGrupo(mensagensGrupo);
+      //this.storageService.saveMensagensGrupo(mensagensGrupo);
       this.form.reset();
       this.inicializarConversas();
-      this.salvarMensagem(mensagem);
+      // this.salvarMensagem(mensagem);
       this.enviarMensagemWebsocket(mensagem);
     }
   }

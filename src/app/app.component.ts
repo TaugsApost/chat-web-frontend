@@ -26,7 +26,24 @@ export class AppComponent implements OnInit {
   }
 
   private monitorarMensagemWebsocket(): void {
-    console.log('testeasda')
+    this.monitorarNovasMenssagens();
+    this.monitorarNovasMensagensGrupo();
+    this.monitorarNovosGrupos();
+  }
+
+  private monitorarNovasMensagensGrupo() {
+    this.webSocketService.mensagemGrupoRecebida.subscribe(mensagem => {
+      if (mensagem) {
+        if (this.storageService.getListaGrupo().find(g => g.id == mensagem.idGrupo)) {
+          let lista = this.storageService.getMensagensGrupo();
+          lista.push(mensagem);
+          this.storageService.saveMensagensGrupo(lista);
+        }
+      }
+    });
+  }
+
+  private monitorarNovasMenssagens() {
     this.webSocketService.mensagemRecebida.subscribe((mensagem) => {
       if (mensagem) {
         let tempMensagem = mensagem;
@@ -36,6 +53,16 @@ export class AppComponent implements OnInit {
             user.listaMensagensRecebidas = user.listaMensagensRecebidas.concat(tempMensagem);
             this.storageService.saveUser(user);
           }
+        }
+      }
+    });
+  }
+
+  private monitorarNovosGrupos() {
+    this.webSocketService.adicionadoEmUmGrupo.subscribe(grupo => {
+      if (grupo) {
+        if (grupo.listaParticipantes.find(p => p.username == this.storageService.getUsername()) != null) {
+          this.storageService.addGrupo(grupo);
         }
       }
     });

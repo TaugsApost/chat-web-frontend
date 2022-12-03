@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Conversa, Grupo, MensagemGrupo, Usuario } from 'src/app/lista-conversas/model/chat-web-model.model';
 
@@ -9,7 +10,7 @@ const USERNAME_CONTATO_KEY = 'username_contato';
 const CONVERSA_KEY = 'conversa';
 const GRUPO_KEY = 'grupo';
 const MENSAGENS_GRUPO_KEY = 'msg_grupo';
-const PARTICIPANTE_KEY = 'participante';
+const LISTA_GRUPOS = 'lista_grupos';
 
 
 @Injectable({
@@ -47,10 +48,20 @@ export class StorageService {
         window.sessionStorage.setItem(NOME_CONTATO_KEY, this.nomeContato(conversa.username2));
     }
 
-    public saveGrupo(grupo: Grupo, mensagens: MensagemGrupo[]) {
+    public saveGrupo(grupo: Grupo) {
         window.sessionStorage.removeItem(GRUPO_KEY);
         window.sessionStorage.setItem(GRUPO_KEY, JSON.stringify(grupo));
-        this.saveMensagensGrupo(mensagens);
+    }
+
+    public addGrupo(grupo: Grupo) {
+        let lista = this.getListaGrupo();
+        lista.push(grupo);
+        this.saveListaGrupo(lista);
+    }
+
+    public saveListaGrupo(grupo: Grupo[]) {
+        window.sessionStorage.removeItem(LISTA_GRUPOS);
+        window.sessionStorage.setItem(LISTA_GRUPOS, JSON.stringify(grupo));
     }
 
     public saveMensagensGrupo(mensagens: MensagemGrupo[]) {
@@ -79,6 +90,14 @@ export class StorageService {
         }
 
         return new Usuario;
+    }
+
+    public getListaGrupo(): Grupo[] {
+        const lista = window.sessionStorage.getItem(LISTA_GRUPOS);
+        if (lista) {
+            return JSON.parse(lista);
+        }
+        return ([] as Grupo[]);
     }
 
     public getUsername(): string {

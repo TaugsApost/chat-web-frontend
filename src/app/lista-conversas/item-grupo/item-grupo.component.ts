@@ -29,36 +29,27 @@ export class ItemGrupoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formItemConversa.controls['data'].setValue(this.datepipe.transform(this.grupo.dataAlteracao, 'dd/MM/YYYY'));
+    const msg = this.buscarUltimaMensagem();
+    this.formItemConversa.controls['data'].setValue(this.datepipe.transform(msg.dataEnvio == null ? new Date : msg.dataEnvio, 'dd/MM/YYYY'));
     this.tituloConversa = this.grupo.nome
-    this.formItemConversa.controls['ultimaMensagem'].setValue(this.ultimaMensagem());
+    this.formItemConversa.controls['ultimaMensagem'].setValue(msg.conteudo);
   }
 
-  private ultimaMensagem(): string {
-    let msgGrupo: MensagemGrupo = new MensagemGrupo;
-    this.grupo.listaParticipantes.forEach(participante => {
-      participante.listaDeMensagens.forEach(msg => {
-        if (msg.dataEnvio > msgGrupo.dataEnvio || msgGrupo.dataEnvio == null) {
-          msgGrupo = msg
-        }
-      })
-    })
-    return msgGrupo.conteudo;
+  private buscarUltimaMensagem(): MensagemGrupo {
+    let msg: MensagemGrupo = new MensagemGrupo;
+    this.storageService.getMensagensGrupo().filter(m => m.idGrupo == this.grupo.id).forEach(mensagem => {
+      if (mensagem.dataEnvio > msg.dataEnvio || msg.dataEnvio == null) {
+        msg = mensagem;
+      }
+    });
+    return msg;
   }
 
   salvarGrupo() {
-    if (this.storageService.getGrupo().id != this.grupo.id) {
-      this.msgService.listarMensagensGrupo(this.grupo.id).subscribe(msg => {
-        this.storageService.saveGrupo(this.grupo, msg);
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/home/conversa/grupo']);
-        });
-      })
-    } else {
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate(['/home/conversa/grupo']);
-      });
-    }
+    this.storageService.saveGrupo(this.grupo);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/home/conversa/grupo']);
+    });
   }
 
 }

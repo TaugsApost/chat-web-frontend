@@ -6,6 +6,7 @@ import { Grupo, Participante } from 'src/app/lista-conversas/model/chat-web-mode
 import { MensagemService } from 'src/app/lista-conversas/service/mensagem.service';
 import { StorageService } from 'src/app/login/service/storege.service';
 import { MensagensService } from 'src/app/utils/mensagens/mensagens.service';
+import { WebSocketService } from 'src/app/websocket/web-socket.service';
 import { GrupoService } from '../service/grupo.service';
 import { ParticipanteService } from '../service/participante.service';
 
@@ -23,7 +24,8 @@ export class ModalNovoGrupoComponent implements OnInit {
   listaContatos: SelectItem[] = [];
 
   constructor(private storageService: StorageService, private grupoService: GrupoService, private participanteService: ParticipanteService,
-    private msgGrupoService: MensagemService, private msgService: MensagensService, private router: Router) {
+    private msgGrupoService: MensagemService, private msgService: MensagensService, private router: Router,
+    private webSocketService: WebSocketService) {
     this.formulario = new FormGroup({
       nome: new FormControl('', Validators.required),
       participantes: new FormControl([], Validators.required)
@@ -63,6 +65,7 @@ export class ModalNovoGrupoComponent implements OnInit {
         participante.username = this.storageService.getUsername();
         participantes.push(participante);
         this.participanteService.salvarParticipantes(participantes).subscribe(p => {
+          grupo.listaParticipantes = participantes;
           this.carregarNovoGrupo(grupo);
         });
       });
@@ -73,7 +76,9 @@ export class ModalNovoGrupoComponent implements OnInit {
     this.msgService.mensagemConfimarComRetorno('Sucesso', 'Grupo criado com sucesso').then(value => {
       if (value) {
         this.router.navigate(['/home/conversa/grupo']);
-        this.storageService.saveGrupo(grupo, []);
+        this.storageService.saveGrupo(grupo);
+        this.storageService.addGrupo(grupo);
+        this.webSocketService.sendNovoGrupo((grupo as Grupo));
         this.fecharModal();
       }
     });

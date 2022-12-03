@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { GrupoService } from '../header/service/grupo.service';
 import { StorageService } from '../login/service/storege.service';
 import { WebSocketService } from '../websocket/web-socket.service';
-import { Grupo, MensagemChat } from './model/chat-web-model.model';
+import { Grupo, MensagemChat, MensagemGrupo } from './model/chat-web-model.model';
 import { MensagemService } from './service/mensagem.service';
 
 @Component({
@@ -29,6 +29,7 @@ export class ListaConversasComponent implements OnInit {
   ngOnInit(): void {
     this.carregarConversas();
     this.carregarGrupos();
+    this.carregarTodasMensagensGrupo();
   }
 
   criarListaConversa() {
@@ -38,11 +39,18 @@ export class ListaConversasComponent implements OnInit {
     ));
   }
 
+  private carregarTodasMensagensGrupo() {
+    this.mensagemService.buscarTodasMensagensGrupoUsuario().subscribe(mensagens => {
+      this.storageService.saveMensagensGrupo(mensagens);
+    })
+  }
+
   private carregarGrupos() {
     this.grupoService.buscarPorUsuario().subscribe(grupos => {
       grupos.forEach(grupo => {
         this.listaGrupo.push(grupo);
       });
+      this.storageService.saveListaGrupo(grupos);
     });
   }
 
@@ -98,6 +106,14 @@ export class ListaConversasComponent implements OnInit {
     this.ordernarMensagem();
   }
 
+  recebeuMensagemGrupo(mensagem: MensagemGrupo) {
+    this.listaGrupo = this.listaGrupo.filter(g => g.id != mensagem.idGrupo);
+    let grupo = this.storageService.getListaGrupo().find(g => g.id == mensagem.idGrupo);
+    if (grupo != null) {
+      this.listaGrupo.unshift(grupo);
+    }
+  }
+
   private ordernarMensagem() {
     this.listaConversas.sort((a, b) => (
       a.dataEnvio > b.dataEnvio ? -1 : 1
@@ -112,6 +128,24 @@ export class ListaConversasComponent implements OnInit {
         }
         if (mensagem.usernameEmissor == this.storageService.getUsername()) {
           this.enviouMensagem(mensagem);
+        }
+      }
+    });
+    this.webSocketService.mensagemGrupoRecebida.subscribe(mensagem => {
+      if (mensagem) {
+        if (this.storageService.getListaGrupo().find(g => g.id == mensagem.idGrupo)) {
+          this.recebeuMensagemGrupo(mensagem);
+        }
+      }
+    });
+    this.monitorarNovosGrupos();
+  }
+
+  private monitorarNovosGrupos() {
+    this.webSocketService.adicionadoEmUmGrupo.subscribe(grupo => {
+      if (grupo) {
+        if (grupo.listaParticipantes.find(p => p.username == this.storageService.getUsername()) != null) {
+          this.listaGrupo.push(grupo);
         }
       }
     });

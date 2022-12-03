@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { StorageService } from 'src/app/login/service/storege.service';
 import { BaseService } from 'src/app/utils/classes-bases/service.service';
 import { MensagemChat, Mensagem, MensagemGrupo } from '../model/chat-web-model.model';
 
@@ -9,7 +10,7 @@ import { MensagemChat, Mensagem, MensagemGrupo } from '../model/chat-web-model.m
 })
 export class MensagemService extends BaseService<Mensagem, Mensagem>{
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private storageService: StorageService) {
     super('mensagem', _http)
   }
 
@@ -28,6 +29,14 @@ export class MensagemService extends BaseService<Mensagem, Mensagem>{
 
   listarMensagensGrupo(idGrupo: number): Observable<MensagemGrupo[]> {
     return this._http.post<MensagemGrupo[]>(this.url + '/listarMensagensGrupo', idGrupo);
+  }
+
+  listarGrupos(): Observable<MensagemGrupo[]> {
+    return this._http.post<MensagemGrupo[]>(this.url + '/criarListaGrupos', this.storageService.getUsername());
+  }
+
+  buscarTodasMensagensGrupoUsuario(): Observable<MensagemGrupo[]> {
+    return this._http.post<MensagemGrupo[]>(this.url + '/buscarMensagensGrupoUsuario', this.storageService.getUsername());
   }
 
   deletarMensagemChat(id: number): Observable<String> {
