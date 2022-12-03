@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { Grupo, MensagemChat, MensagemGrupo } from "../lista-conversas/model/chat-web-model.model";
+import { Grupo, Mensagem, MensagemChat, MensagemExcluir, MensagemGrupo } from "../lista-conversas/model/chat-web-model.model";
 import * as packageInfo from '../utils/links/estrutura-links.json';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class WebSocketService {
   mensagemRecebida: BehaviorSubject<MensagemChat | null> = new BehaviorSubject<MensagemChat | null>(null);
   mensagemGrupoRecebida: BehaviorSubject<MensagemGrupo | null> = new BehaviorSubject<MensagemGrupo | null>(null);
   adicionadoEmUmGrupo: BehaviorSubject<Grupo | null> = new BehaviorSubject<Grupo | null>(null);
+  mensagemChatExcluida: BehaviorSubject<MensagemExcluir | null> = new BehaviorSubject<MensagemExcluir | null>(null);
   private restMap = packageInfo;
 
   constructor() {
@@ -27,6 +28,7 @@ export class WebSocketService {
       this.mensagemRecebida.next(JSON.parse(event.data));
       this.mensagemGrupoRecebida.next(JSON.parse(event.data));
       this.adicionadoEmUmGrupo.next(JSON.parse(event.data));
+      this.mensagemChatExcluida.next(JSON.parse(event.data));
     };
 
     this.webSocket.onclose = (event) => {
@@ -35,6 +37,10 @@ export class WebSocketService {
   }
 
   public sendMessage(message: MensagemChat) {
+    this.webSocket.send(JSON.stringify(message));
+  }
+
+  public excluiuMensagemChat(message: MensagemExcluir) {
     this.webSocket.send(JSON.stringify(message));
   }
 

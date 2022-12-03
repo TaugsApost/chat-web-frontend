@@ -144,8 +144,10 @@ export class ListaConversasComponent implements OnInit {
   private monitorarNovosGrupos() {
     this.webSocketService.adicionadoEmUmGrupo.subscribe(grupo => {
       if (grupo) {
-        if (grupo.listaParticipantes.find(p => p.username == this.storageService.getUsername()) != null) {
-          this.listaGrupo.push(grupo);
+        if (grupo.listaParticipantes != null) {
+          if (grupo.listaParticipantes.find(p => p.username == this.storageService.getUsername()) != null) {
+            this.listaGrupo.push(grupo);
+          }
         }
       }
     });

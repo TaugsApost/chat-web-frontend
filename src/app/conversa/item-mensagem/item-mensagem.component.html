@@ -1,14 +1,34 @@
 <div [ngClass]="emissor?'justify-content-end':'justify-content-start'"
     class="grid flex mt-3">
     <div [ngClass]="emissor?'surface-300':'surface-900 text-white'"
-        class="col-5 border-round shadow-4">
-        <span class="m-0 p-0 icone-excluir-mensagem"
-            pTooltip="Excluir mensagem"
-            tooltipPosition="left"
-            *ngIf="emissor"
-            (click)="excluirMessage()">
-            <i class="pi pi-times cursor-pointer"></i>
-        </span>
+        class="col-5 border-round shadow-4 relative">
+        <div class="col-12 flex justify-content-end relative">
+            <span class="pt-1"
+                *ngIf="emissor"
+                pStyleClass="@next"
+                enterClass="hidden"
+                enterActiveClass="scalein"
+                leaveToClass="hidden"
+                leaveActiveClass="fadeout"
+                [hideOnOutsideClick]="true">
+                <i class="pi pi-ellipsis-v cursor-pointer text-xs"></i>
+            </span>
+            <div class="w-max top-100 grid border-1 border-500 hidden absolute shadow-5 py-1 surface-card  z-5">
+                <ul pStyleClass="@parent"
+                    leaveToClass="hidden"
+                    leaveActiveClass="fadeout"
+                    class="list-none p-0 m-0">
+                    <li>
+                        <span (click)="excluirMensagem()"
+                            class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Apagar Mensagem</span>
+                    </li>
+                    <li>
+                        <span class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Alterar Mensagem</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <p style="overflow-wrap: break-word;"
             class="text-xs pt-2 m-0">{{mensagem.conteudo}}</p>
         <div class="col-12 flex justify-content-end">
@@ -16,4 +36,5 @@
                 for="">{{hora}}</label>
         </div>
     </div>
+
 </div>

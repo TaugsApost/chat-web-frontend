@@ -4,14 +4,17 @@ import { Observable } from 'rxjs';
 import { StorageService } from 'src/app/login/service/storege.service';
 import { BaseService } from 'src/app/utils/classes-bases/service.service';
 import { MensagemChat, Mensagem, MensagemGrupo } from '../model/chat-web-model.model';
+import { shareReplay, retry, share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MensagemService extends BaseService<Mensagem, Mensagem>{
 
+  someDataObservable: Observable<String> | undefined;
+
   constructor(private _http: HttpClient, private storageService: StorageService) {
-    super('mensagem', _http)
+    super('mensagem', _http);
   }
 
   listarConversas(username: string, filtro: string): Observable<MensagemChat[]> {
@@ -39,8 +42,8 @@ export class MensagemService extends BaseService<Mensagem, Mensagem>{
     return this._http.post<MensagemGrupo[]>(this.url + '/buscarMensagensGrupoUsuario', this.storageService.getUsername());
   }
 
-  deletarMensagemChat(id: number): Observable<String> {
-    return this._http.post<String>(this.url + '/deletarMensagemChat', id);
+  deletarMensagem(id: number): Observable<String> {
+    return this._http.post<String>(this.url + '/excluirMensagem', id).pipe(shareReplay(0), retry(0));
   }
 
 }

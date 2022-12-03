@@ -79,6 +79,17 @@ export class GrupoComponent implements OnInit {
         }
       }
     });
+    this.monitorarMensagensExcluidas();
+  }
+
+  private monitorarMensagensExcluidas() {
+    this.webSocketService.mensagemChatExcluida.subscribe((mensagem) => {
+      if (mensagem) {
+        if (this.listaMensagens.find(m => m.id == mensagem.id)) {
+          this.inicializarConversas();
+        }
+      }
+    });
   }
 
   private salvarMensagem(mensagem: MensagemGrupo) {

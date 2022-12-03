@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Mensagem, MensagemChat } from 'src/app/lista-conversas/model/chat-web-model.model';
+import { Mensagem, MensagemChat, MensagemExcluir } from 'src/app/lista-conversas/model/chat-web-model.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { StorageService } from 'src/app/login/service/storege.service';
+import { WebSocketService } from 'src/app/websocket/web-socket.service';
+import { MensagemService } from 'src/app/lista-conversas/service/mensagem.service';
 
 @Component({
   selector: 'app-item-mensagem',
@@ -12,7 +14,6 @@ export class ItemMensagemComponent implements OnInit {
 
   @Input() emissor: any = true;
   @Input() mensagem: Mensagem = new Mensagem();
-  @Output("excluirMensagem") excluirMensagem: EventEmitter<any> = new EventEmitter();
   private datepipe: DatePipe = new DatePipe('en-US');
 
   hora: string = '';
@@ -20,6 +21,8 @@ export class ItemMensagemComponent implements OnInit {
 
   constructor(
     private storageService: StorageService,
+    private webSocketService: WebSocketService,
+    private mensagemService: MensagemService
   ) {
     this._storageService = storageService;
   }
@@ -34,8 +37,18 @@ export class ItemMensagemComponent implements OnInit {
     }
   }
 
-  excluirMessage() {
-    this.excluirMensagem.emit();
+  excluirMensagem() {
+    let mensagem: MensagemExcluir = new MensagemExcluir;
+    mensagem.id = this.mensagem.id;
+    this.excluir(mensagem);
   }
+
+  private excluir(mensagem: MensagemExcluir) {
+    this.mensagemService.excluir(mensagem.id).subscribe((msg) => {
+      this.webSocketService.excluiuMensagemChat(mensagem);
+    })
+  }
+
+
 
 }

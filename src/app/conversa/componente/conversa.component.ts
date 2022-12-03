@@ -53,32 +53,15 @@ export class ConversaComponent implements OnInit {
 
   enviarMensagem() {
     if ((this.form.controls['mensagem'].value as string).trim() != '') {
-      let user = this.storageService.getUser();
       let conteudo = this.form.controls['mensagem'].value;
       let mensagem = new MensagemChat();
       mensagem.conteudo = conteudo;
       mensagem.dataEnvio = new Date;
       mensagem.usernameEmissor = this.storageService.getUsername();
       mensagem.usernameReceptor = this.storageService.getUsernameContato();
-      user.listaMensagensEnviadas.push(mensagem);
-      this.storageService.saveUser(user);
       this.form.reset();
-      this.inicializarConversas();
       this.salvarMensagem(mensagem);
-      this.enviarMensagemWebsocket(mensagem);
     }
-  }
-
-  excluirMensagem(mensagem: MensagemChat): void {
-    let user = this.storageService.getUser();
-    user.listaMensagensEnviadas = user.listaMensagensEnviadas.filter(m => m.id != mensagem.id);
-    this.storageService.saveUser(user);
-    this.inicializarConversas();
-    this.deletarMensagem(mensagem);
-  }
-
-  deletarMensagem(mensagem: MensagemChat) {
-    this.mensagemService.deletarMensagemChat(mensagem.id).subscribe();
   }
 
   private enviarMensagemWebsocket(mensagem: MensagemChat): void {
@@ -86,18 +69,33 @@ export class ConversaComponent implements OnInit {
   }
 
   private monitorarMensagemWebsocket(): void {
+    this.monitorarMensagensRecebidas();
+    this.monitorarMensagensExcluidas();
+  }
+
+  private monitorarMensagensRecebidas() {
     this._webSocketService.mensagemRecebida.subscribe((mensagem) => {
       if (mensagem) {
-        if (mensagem.usernameReceptor == this.storageService.getUsername()) {
-
+        if (mensagem.usernameReceptor == this.storageService.getUsername()
+          || (mensagem.usernameEmissor == this.storageService.getUsername())) {
           this.inicializarConversas();
         }
       }
     });
   }
 
+  private monitorarMensagensExcluidas() {
+    this._webSocketService.mensagemChatExcluida.subscribe((mensagem) => {
+      if (mensagem) {
+        this.inicializarConversas();
+      }
+    });
+  }
+
   private salvarMensagem(mensagem: MensagemChat) {
-    this.mensagemService.salvarMensagemChat(mensagem).subscribe();
+    this.mensagemService.salvarMensagemChat(mensagem).subscribe(novaMsg => {
+      this.enviarMensagemWebsocket(novaMsg);
+    });
   }
 
 }

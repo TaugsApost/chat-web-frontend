@@ -7,12 +7,12 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ListaConversasModule } from './lista-conversas/lista-conversas.module';
-import { HttpErrorInterceptor } from './utils/interceptador/interceptador';
 import { MensagensModule } from './utils/mensagens/mensagens.module';
 import { PrimengModule } from './utils/primeng/primeng.module';
 import { LoaderInterceptador } from './utils/interceptador/loader-interceptador';
 import { LoaderModule } from './utils/loader/loader.module';
 import { ConversaModule } from './conversa/conversa.module';
+import { HttpErrorInterceptor } from './utils/interceptador/interceptador';
 
 @NgModule({
   declarations: [

@@ -40,6 +40,11 @@ export class Mensagem {
     dataEnvio: any = null;
     conteudo = '';
 }
+
+export class MensagemExcluir {
+    id = 0;
+}
+
 export class MensagemChat extends Mensagem {
     usernameEmissor = '';
     usernameReceptor = '';

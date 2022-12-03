@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Conversa, Grupo, MensagemGrupo, Usuario } from 'src/app/lista-conversas/model/chat-web-model.model';
+import { Conversa, Grupo, Mensagem, MensagemGrupo, Usuario } from 'src/app/lista-conversas/model/chat-web-model.model';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'usuario';
@@ -148,5 +148,10 @@ export class StorageService {
         }
 
         return ([] as MensagemGrupo[]);
+    }
+
+    public removerMensagemGrupo(id: number) {
+        let lista = this.getMensagensGrupo();
+        lista = lista.filter(m => m.id != id);
     }
 }
