@@ -153,5 +153,6 @@ export class StorageService {
     public removerMensagemGrupo(id: number) {
         let lista = this.getMensagensGrupo();
         lista = lista.filter(m => m.id != id);
+        this.saveMensagensGrupo(lista);
     }
 }

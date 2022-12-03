@@ -37,10 +37,14 @@ export class AppComponent implements OnInit {
   private monitorarNovasMensagensGrupo() {
     this.webSocketService.mensagemGrupoRecebida.subscribe(mensagem => {
       if (mensagem) {
-        if (this.storageService.getListaGrupo().find(g => g.id == mensagem.idGrupo)) {
-          let lista = this.storageService.getMensagensGrupo();
-          lista.push(mensagem);
-          this.storageService.saveMensagensGrupo(lista);
+        if (this.storageService.getMensagensGrupo().find(m => m.id == mensagem.id) != null) {
+          this.storageService.removerMensagemGrupo(mensagem.id);
+        } else {
+          if (this.storageService.getListaGrupo().find(g => g.id == mensagem.idGrupo)) {
+            let lista = this.storageService.getMensagensGrupo();
+            lista.push(mensagem);
+            this.storageService.saveMensagensGrupo(lista);
+          }
         }
       }
     });

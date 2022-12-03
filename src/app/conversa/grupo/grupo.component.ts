@@ -56,8 +56,8 @@ export class GrupoComponent implements OnInit {
       //this.storageService.saveMensagensGrupo(mensagensGrupo);
       this.form.reset();
       this.inicializarConversas();
-      // this.salvarMensagem(mensagem);
-      this.enviarMensagemWebsocket(mensagem);
+      this.salvarMensagem(mensagem);
+
     }
   }
 
@@ -85,15 +85,17 @@ export class GrupoComponent implements OnInit {
   private monitorarMensagensExcluidas() {
     this.webSocketService.mensagemChatExcluida.subscribe((mensagem) => {
       if (mensagem) {
-        if (this.listaMensagens.find(m => m.id == mensagem.id)) {
-          this.inicializarConversas();
-        }
+        // if (this.listaMensagens.find(m => m.id == mensagem.id)) {
+        this.inicializarConversas();
+        //  }
       }
     });
   }
 
   private salvarMensagem(mensagem: MensagemGrupo) {
-    this.mensagemService.salvarMensagemGrupo(mensagem).subscribe();
+    this.mensagemService.salvarMensagemGrupo(mensagem).subscribe(msg => {
+      this.enviarMensagemWebsocket(msg);
+    });
   }
 
 }
