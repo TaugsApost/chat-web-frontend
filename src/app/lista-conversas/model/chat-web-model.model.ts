@@ -17,6 +17,9 @@ export class Contato {
     nomeContato = '';
     //contato: Usuario = new Usuario;
 }
+export class ItemGrupo {
+
+}
 export class Conversa {
     username1 = '';
     username2 = '';
@@ -37,17 +40,11 @@ export class Mensagem {
     dataEnvio: any = null;
     conteudo = '';
 }
-export class MensagemChat {
-    id = 0;
-    dataEnvio: any = null;
-    conteudo = '';
+export class MensagemChat extends Mensagem {
     usernameEmissor = '';
     usernameReceptor = '';
 }
-export class MensagemGrupo {
-    id = 0;
-    dataEnvio: any = null;
-    conteudo = '';
+export class MensagemGrupo extends Mensagem {
     idGrupo = 0;
     username = '';
 }

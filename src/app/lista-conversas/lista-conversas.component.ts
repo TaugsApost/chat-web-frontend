@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { GrupoService } from '../header/service/grupo.service';
 import { StorageService } from '../login/service/storege.service';
 import { WebSocketService } from '../websocket/web-socket.service';
-import { MensagemChat } from './model/chat-web-model.model';
+import { Grupo, MensagemChat } from './model/chat-web-model.model';
 import { MensagemService } from './service/mensagem.service';
 
 @Component({
@@ -13,9 +14,12 @@ import { MensagemService } from './service/mensagem.service';
 export class ListaConversasComponent implements OnInit {
 
   listaConversas: MensagemChat[] = [];
+  listaGrupo: Grupo[] = [];
   form: FormGroup
+  conversa: boolean = true;
 
-  constructor(private mensagemService: MensagemService, private storageService: StorageService, private webSocketService: WebSocketService) {
+  constructor(private mensagemService: MensagemService, private storageService: StorageService, private webSocketService: WebSocketService,
+    private grupoService: GrupoService) {
     this.form = new FormGroup({
       filtro: new FormControl('')
     });
@@ -24,6 +28,7 @@ export class ListaConversasComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarConversas();
+    this.carregarGrupos();
   }
 
   criarListaConversa() {
@@ -31,6 +36,14 @@ export class ListaConversasComponent implements OnInit {
     this.listaConversas.sort((a, b) => (
       a.dataEnvio > b.dataEnvio ? -1 : 1
     ));
+  }
+
+  private carregarGrupos() {
+    this.grupoService.buscarPorUsuario().subscribe(grupos => {
+      grupos.forEach(grupo => {
+        this.listaGrupo.push(grupo);
+      });
+    });
   }
 
   private carregarConversas() {

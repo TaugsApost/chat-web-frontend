@@ -21,4 +21,12 @@ export class MensagemService extends BaseService<Mensagem, Mensagem>{
     return this._http.post<MensagemChat>(this.url + '/salvarMensagemChat', mensagem);
   }
 
+  salvarMensagemGrupo(mensagem: MensagemGrupo): Observable<MensagemGrupo> {
+    return this._http.post<MensagemGrupo>(this.url + '/salvarMensagemGrupo', mensagem);
+  }
+
+  listarMensagensGrupo(idGrupo: number): Observable<MensagemGrupo[]> {
+    return this._http.post<MensagemGrupo[]>(this.url + '/listarMensagensGrupo', idGrupo);
+  }
+
 }

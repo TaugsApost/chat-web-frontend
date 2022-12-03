@@ -4,6 +4,7 @@ import { ListaConversasComponent } from './lista-conversas.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PrimengModule } from '../utils/primeng/primeng.module';
 import { ItemConversaComponent, LabelControl } from './item-conversa/item-conversa.component';
+import { ItemGrupoComponent } from './item-grupo/item-grupo.component';
 
 
 
@@ -11,7 +12,8 @@ import { ItemConversaComponent, LabelControl } from './item-conversa/item-conver
   declarations: [
     ListaConversasComponent,
     ItemConversaComponent,
-    LabelControl
+    LabelControl,
+    ItemGrupoComponent
   ],
   imports: [
     CommonModule,

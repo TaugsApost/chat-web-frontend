@@ -1,15 +1,43 @@
-<form [formGroup]="form" style="margin-top: 0;">
+<form [formGroup]="form"
+    style="margin-top: 0;">
     <div class="formgrid grid">
         <div class="col-12 field mb-3">
             <div class="p-inputgroup">
-                <input type="text" formControlName="filtro" pInputText class="p-inputtext"
-                    [placeholder]="'Pesquisar Conversas'" (change)="pesquisarConversas()">
+                <input type="text"
+                    formControlName="filtro"
+                    pInputText
+                    class="p-inputtext"
+                    [placeholder]="'Pesquisar Conversas'"
+                    (change)="pesquisarConversas()">
                 <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
             </div>
         </div>
-        <div style="height: 70vh; overflow-y: auto; border-top: 1px solid var(--surface-500);" class="col-12 mt-3">
-            <div *ngFor="let conversa of listaConversas" class="col-12 field mt-3">
+        <div class="col-12 grid field mt-0 mb-0">
+            <div (click)="conversa = true"
+                [ngClass]="conversa?'col-3 border-top-1 border-left-1 border-500 text-900 border-bottom-0 text-center shadow-1 surface-card'
+            :'col-3 border-top-1 border-left-1 border-500 text-500 border-bottom-0 text-center border-surface'">
+                <span>conversa</span>
+            </div>
+            <div (click)="conversa = false"
+                [ngClass]="conversa ? 'col-3 border-top-1 border-left-1 border-right-1 border-500 text-500 border-bottom-0 text-center border-surface':
+            'col-3 border-top-1 border-left-1 border-right-1 border-500 text-900 border-bottom-0 text-center border-surface shadow-1 surface-card'">
+                <span>grupo</span>
+            </div>
+        </div>
+        <div *ngIf="conversa"
+            style="height: 70vh; overflow-y: auto; border-top: 1px solid var(--surface-500);"
+            class="col-12 mt-0">
+            <div *ngFor="let conversa of listaConversas"
+                class="col-12 field mt-3">
                 <app-item-conversa [itemConversa]="conversa"></app-item-conversa>
+            </div>
+        </div>
+        <div *ngIf="!conversa"
+            style="height: 70vh; overflow-y: auto; border-top: 1px solid var(--surface-500);"
+            class="col-12 mt-0">
+            <div *ngFor="let grupo of listaGrupo"
+                class="col-12 field mt-3">
+                <app-item-grupo [grupo]="grupo"></app-item-grupo>
             </div>
         </div>
     </div>

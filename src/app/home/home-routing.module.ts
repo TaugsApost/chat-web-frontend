@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'conversa',
         loadChildren: () => import('../conversa/conversa.module').then(x => x.ConversaModule),
-      }
+      },
     ]
   }
 ];

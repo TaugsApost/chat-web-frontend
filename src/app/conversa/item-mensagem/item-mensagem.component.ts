@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { MensagemChat } from 'src/app/lista-conversas/model/chat-web-model.model';
+import { Mensagem, MensagemChat } from 'src/app/lista-conversas/model/chat-web-model.model';
 
 @Component({
   selector: 'app-item-mensagem',
@@ -10,7 +10,7 @@ import { MensagemChat } from 'src/app/lista-conversas/model/chat-web-model.model
 export class ItemMensagemComponent implements OnInit {
 
   @Input() emissor: any = true;
-  @Input() mensagem: MensagemChat = new MensagemChat();
+  @Input() mensagem: Mensagem = new Mensagem();
   private datepipe: DatePipe = new DatePipe('en-US');
 
   hora: string = '';

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { MensagemChat } from "../lista-conversas/model/chat-web-model.model";
+import { MensagemChat, MensagemGrupo } from "../lista-conversas/model/chat-web-model.model";
 import * as packageInfo from '../utils/links/estrutura-links.json';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class WebSocketService {
 
   webSocket: WebSocket;
   mensagemRecebida: BehaviorSubject<MensagemChat | null> = new BehaviorSubject<MensagemChat | null>(null);
+  mensagemGrupoRecebida: BehaviorSubject<MensagemGrupo | null> = new BehaviorSubject<MensagemGrupo | null>(null);
   private restMap = packageInfo;
 
   constructor() {
@@ -23,6 +24,7 @@ export class WebSocketService {
 
     this.webSocket.onmessage = (event) => {
       this.mensagemRecebida.next(JSON.parse(event.data));
+      this.mensagemGrupoRecebida.next(JSON.parse(event.data));
     };
 
     this.webSocket.onclose = (event) => {
@@ -31,6 +33,10 @@ export class WebSocketService {
   }
 
   public sendMessage(message: MensagemChat) {
+    this.webSocket.send(JSON.stringify(message));
+  }
+
+  public sendMessageGrupo(message: MensagemGrupo) {
     this.webSocket.send(JSON.stringify(message));
   }
 

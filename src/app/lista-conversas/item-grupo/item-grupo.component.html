@@ -1,0 +1,18 @@
+<form [formGroup]="formItemConversa">
+    <div class="item-conversa formgrid grid mt-0"
+        (click)="salvarGrupo()">
+        <div class="col-12 field p-0 m-0 mt-1 formgrid grid">
+            <div class="col-8 field">
+                <h5>{{tituloConversa}}</h5>
+            </div>
+            <div class="col-4 field text-right">
+                <label style="overflow: hidden; margin: 0; color: rgb(89, 89, 89);"
+                    controlName="data"></label>
+            </div>
+        </div>
+        <div class="col-12 field mb-0 pb-0">
+            <label class="label-item-conversa"
+                controlName="ultimaMensagem"></label>
+        </div>
+    </div>
+</form>

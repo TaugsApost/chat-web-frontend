@@ -1,3 +1,47 @@
-<p-dialog [(visible)]="display">
-
+<p-dialog [(visible)]="display"
+    (onHide)="fecharModal()"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    [draggable]="false"
+    [resizable]="true"
+    [breakpoints]="{'960px': '75vw'}"
+    header="Novo Grupo">
+    <p-card styleClass="surface-card">
+        <form [formGroup]="formulario"
+            class="text-color fluid surface-card">
+            <div class="grid formgrid">
+                <div class="col-12 field">
+                    <input type="text"
+                        pInputText
+                        class="p-inputtext"
+                        formControlName="nome"
+                        placeholder="Nome do Grupo">
+                </div>
+            </div>
+            <div class="grid formgrid mt-3">
+                <div class="col-12 field">
+                    <p-multiSelect scrollHeight="80px"
+                        styleClass="w-full"
+                        [options]="listaContatos"
+                        [virtualScroll]="true"
+                        defaultLabel="Selecione os Contatos"
+                        formControlName="participantes"
+                        display="chip">
+                    </p-multiSelect>
+                </div>
+            </div>
+        </form>
+    </p-card>
+    <div class="grid formgrid flex justify-content-center mt-4 col-12">
+        <div class="col-5">
+            <button pButton
+                [style]="{'width':'100%'}"
+                pRipple
+                type="button"
+                label="Criar Grupo"
+                class="p-button-raised p-button-success"
+                (click)="criarGrupo()">
+            </button>
+        </div>
+    </div>
 </p-dialog>

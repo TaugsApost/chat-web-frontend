@@ -1,0 +1,26 @@
+.item-conversa {
+    width: 100%;
+    border-color: gray;
+    opacity: 1;
+    border: 1px solid var(--surface-500);
+    border-left: 0;
+    border-right: 0;
+}
+
+.item-conversa:hover {
+    background-color: var(--surface-500);
+    cursor: pointer;
+}
+
+.item-conversa h3 {
+    margin: 0;
+}
+
+.label-item-conversa {
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}

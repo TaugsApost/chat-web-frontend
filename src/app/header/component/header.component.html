@@ -29,7 +29,8 @@
                 <li>
                     <span class="block p-3 no-underline py-2 px-3 
                                     hover:surface-500 transition-all transition-duration-500 
-                                    text-black-alpha-90 cursor-pointer"><i class="pi pi-plus-circle mr-3"></i> Novo Grupo</span>
+                                    text-black-alpha-90 cursor-pointer"
+                        (click)="displayNovoGrupo = true"><i class="pi pi-plus-circle mr-3"></i> Novo Grupo</span>
                 </li>
                 <li>
                     <span class="block p-3 no-underline py-2 px-3 hover:surface-500 transition-all transition-duration-500 text-black-alpha-90 cursor-pointer"
@@ -50,3 +51,5 @@
     (fechar)="displayAddContato = false"></modal-add-contato>
 <modal-nova-conversa [display]="displayNovaConversa"
     (fechar)="displayNovaConversa = false"></modal-nova-conversa>
+<modal-novo-grupo [display]="displayNovoGrupo"
+    (fechar)="displayNovoGrupo = false"></modal-novo-grupo>

@@ -6,13 +6,15 @@ import { ConversaRoutingModule } from './conversa-routing.module';
 import { ConversaComponent } from './componente/conversa.component';
 import { ConversaService } from './service/conversa.service';
 import { ItemMensagemComponent } from './item-mensagem/item-mensagem.component';
+import { GrupoComponent } from './grupo/grupo.component';
 
 
 
 @NgModule({
   declarations: [
     ConversaComponent,
-    ItemMensagemComponent
+    ItemMensagemComponent,
+    GrupoComponent
   ],
   imports: [
     CommonModule,
