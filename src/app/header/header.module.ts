@@ -10,6 +10,7 @@ import { TabelaModule } from '../utils/tabela/tabela.module';
 import { UsuarioService } from './service/usuario.service';
 import { ModalNomeComponent } from './modal-nome/modal-nome.component';
 import { ContatoComponent } from './modal-nova-conversa/contato/contato.component';
+import { ModalUsuarioComponent } from './modal-usuario/modal-usuario.component';
 
 
 
@@ -21,6 +22,7 @@ import { ContatoComponent } from './modal-nova-conversa/contato/contato.componen
     ModalNovoGrupoComponent,
     ModalNomeComponent,
     ContatoComponent,
+    ModalUsuarioComponent,
   ],
   exports: [
     HeaderComponent,

@@ -1,7 +1,8 @@
 <div class="formgrid grid m-0 p-0 flex justify-content-end">
     <div class="col-12 grid m-0 p-0 flex align-items-center">
         <div class="col-9">
-            <span class="m-0 p-0"
+            <span (click)="displayUsuario = true"
+                class="m-0 p-0"
                 pTooltip=""><i class="pi pi-user border-circle p-3 shadow-1 cursor-pointer"></i></span>
         </div>
         <div class="col-2">
@@ -53,3 +54,5 @@
     (fechar)="displayNovaConversa = false"></modal-nova-conversa>
 <modal-novo-grupo [display]="displayNovoGrupo"
     (fechar)="displayNovoGrupo = false"></modal-novo-grupo>
+<modal-usuario (fechar)="displayUsuario = false"
+    [display]="displayUsuario"></modal-usuario>

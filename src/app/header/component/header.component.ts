@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   displayAddContato: boolean = false;
   displayNovaConversa: boolean = false;
   displayNovoGrupo: boolean = false;
+  displayUsuario: boolean = false;
 
   constructor(private storageService: StorageService, private msgService: MensagensService, private route: Router) { }
 
