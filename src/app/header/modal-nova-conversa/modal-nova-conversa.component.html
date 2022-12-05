@@ -25,15 +25,16 @@
                     [titulo]="'Contatos'"
                     [columns]="columns"
                     [habAdicionar]="true"
-                    [habEditar]="false"
-                    [habDeletar]="false"
                     [habVisualizar]="false"
-                    (editar)="''"
+                    (editar)="editarContato($event)"
                     (visualizar)="''"
-                    (deletar)="''"
+                    (deletar)="excluirContato($event)"
                     (adicionar)="criarNovaConversa($event)">
                 </taugs-tabela>
             </div>
         </div>
     </form>
 </p-dialog>
+<app-contato [contato]="contato"
+    [display]="displayEdit"
+    (fechar)="contatoEditado()"></app-contato>

@@ -9,6 +9,7 @@ export abstract class BaseService<Filter, Entity>{
     private urlExcluir: string;
     private urlBuscar: string;
     private urlDetalhar: string;
+    private urlEditar: string;
     private restMap = packageInfo;
     private http: HttpClient;
     url: string;
@@ -19,12 +20,17 @@ export abstract class BaseService<Filter, Entity>{
         this.urlExcluir = this.restMap.comum.url + caminho + this.restMap.comum.excluir;
         this.urlBuscar = this.restMap.comum.url + caminho + this.restMap.comum.buscar;
         this.urlDetalhar = this.restMap.comum.url + caminho + this.restMap.comum.detalhar;
+        this.urlEditar = this.restMap.comum.url + caminho + this.restMap.comum.editar;
         this.http = http;
         this.url = this.restMap.comum.url + caminho;
     }
 
     salvar(entity: Entity): Observable<any> {
         return this.http.post(this.urlSalvar, entity);
+    }
+
+    editar(entity: Entity): Observable<Entity> {
+        return this.http.post<Entity>(this.urlEditar, entity);
     }
 
     listar(): Observable<any> {

@@ -4,6 +4,7 @@ import { Conversa, MensagemChat } from '../model/chat-web-model.model';
 import { DatePipe } from '@angular/common';
 import { StorageService } from 'src/app/login/service/storege.service';
 import { Router } from '@angular/router';
+import { WebSocketService } from 'src/app/websocket/web-socket.service';
 
 @Component({
   selector: 'app-item-conversa',
@@ -18,12 +19,14 @@ export class ItemConversaComponent implements OnInit {
   tituloConversa: string = '';
   private datepipe: DatePipe = new DatePipe('en-US');
 
-  constructor(private storageService: StorageService, private router: Router) {
+  constructor(private storageService: StorageService, private router: Router,
+    private webSocketService: WebSocketService) {
     this.formItemConversa = new FormGroup({
       nomeconversa: new FormControl(),
       ultimaMensagem: new FormControl(),
       data: new FormControl()
     });
+    this.monitorarWebSocket();
   }
 
   ngOnInit(): void {
@@ -62,6 +65,16 @@ export class ItemConversaComponent implements OnInit {
     this.storageService.saveConversa(conversa);
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/home/conversa']);
+    });
+  }
+
+  private monitorarWebSocket() {
+    this.webSocketService.contatoEditado.subscribe(contato => {
+      if (contato) {
+        //if (this.itemConversa.usernameEmissor == contato.usernameContato || this.itemConversa.usernameReceptor == contato.usernameContato) {
+        this.ngOnInit();
+        // }
+      }
     });
   }
 

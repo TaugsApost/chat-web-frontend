@@ -1,0 +1,46 @@
+<p-dialog [(visible)]="display"
+    (onHide)="fecharModal()"
+    (onShow)="inicializarContato()"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    [draggable]="false"
+    [resizable]="false"
+    [breakpoints]="{'960px': '75vw'}"
+    header="Editar Contato">
+    <form [formGroup]="formulario">
+        <div class="grid mt-3 text-color">
+            <div class="col-6">
+                <span class="p-float-label">
+                    <input type="text"
+                        pInputText
+                        class="p-inputtext"
+                        formControlName="nome"
+                        placeholder="Nome do Contato">
+                    <label for="">Nome do Contato</label>
+                </span>
+            </div>
+            <div class="col-6">
+                <span class="p-float-label">
+                    <input type="text"
+                        pInputText
+                        class="p-inputtext"
+                        formControlName="usernameContato"
+                        placeholder="Username">
+                    <label for="">Username</label>
+                </span>
+            </div>
+        </div>
+        <div class="grid mt-3 flex justify-content-center">
+            <div class="col-6">
+                <button pButton
+                    [style]="{'width':'100%'}"
+                    pRipple
+                    type="button"
+                    label="Editar Contato"
+                    class="p-button-raised p-button-success p-button-sm"
+                    (click)="editarContato()">
+                </button>
+            </div>
+        </div>
+    </form>
+</p-dialog>

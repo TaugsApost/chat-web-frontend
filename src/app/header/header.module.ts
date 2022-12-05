@@ -9,6 +9,7 @@ import { ModalNovoGrupoComponent } from './modal-novo-grupo/modal-novo-grupo.com
 import { TabelaModule } from '../utils/tabela/tabela.module';
 import { UsuarioService } from './service/usuario.service';
 import { ModalNomeComponent } from './modal-nome/modal-nome.component';
+import { ContatoComponent } from './modal-nova-conversa/contato/contato.component';
 
 
 
@@ -18,7 +19,8 @@ import { ModalNomeComponent } from './modal-nome/modal-nome.component';
     ModaAddContatoComponent,
     ModalNovaConversaComponent,
     ModalNovoGrupoComponent,
-    ModalNomeComponent
+    ModalNomeComponent,
+    ContatoComponent,
   ],
   exports: [
     HeaderComponent,
