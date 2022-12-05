@@ -43,6 +43,8 @@ export class Mensagem {
 
 export class MensagemExcluir {
     id = 0;
+    conteudo = '';
+    idGrupo = 0;
 }
 
 export class MensagemChat extends Mensagem {

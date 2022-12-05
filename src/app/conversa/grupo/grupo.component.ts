@@ -45,15 +45,12 @@ export class GrupoComponent implements OnInit {
 
   enviarMensagem() {
     if ((this.form.controls['mensagem'].value as string).trim() != '') {
-      let mensagensGrupo = this.storageService.getMensagensGrupo();
       let conteudo = this.form.controls['mensagem'].value;
       let mensagem = new MensagemGrupo();
       mensagem.conteudo = conteudo;
       mensagem.dataEnvio = new Date;
       mensagem.idGrupo = this.storageService.getGrupo().id;
       mensagem.username = this.storageService.getUsername();
-      mensagensGrupo.push(mensagem);
-      //this.storageService.saveMensagensGrupo(mensagensGrupo);
       this.form.reset();
       this.inicializarConversas();
       this.salvarMensagem(mensagem);

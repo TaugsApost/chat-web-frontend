@@ -155,4 +155,9 @@ export class StorageService {
         lista = lista.filter(m => m.id != id);
         this.saveMensagensGrupo(lista);
     }
+    public adicionarMensagemGrupo(mensagem: MensagemGrupo) {
+        let lista = this.getMensagensGrupo();
+        lista.push(mensagem);
+        this.saveMensagensGrupo(lista);
+    }
 }

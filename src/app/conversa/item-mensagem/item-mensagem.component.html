@@ -23,14 +23,27 @@
                             class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Apagar Mensagem</span>
                     </li>
                     <li>
-                        <span class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Alterar Mensagem</span>
+                        <span (click)="habilitarEdicaoMensagem()"
+                            class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Alterar Mensagem</span>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <p style="overflow-wrap: break-word;"
+        <p *ngIf="!editMsg"
+            style="overflow-wrap: break-word;"
             class="text-xs pt-2 m-0">{{mensagem.conteudo}}</p>
+        <form *ngIf="editMsg"
+            class="p-inputgroup"
+            [formGroup]="form"
+            (ngSubmit)="editarMensagem()">
+            <input type="text"
+                class="p-inputtext-sm surface-300 m-0 p-0"
+                formControlName="mensagem"
+                pInputText />
+            <span class="p-inputgroup-addon cursor-pointer"
+                (click)="editMsg = false"><i class="pi pi-times text-xs"></i></span>
+        </form>
         <div class="col-12 flex justify-content-end">
             <label class="text-xs text-center pb-1"
                 for="">{{hora}}</label>

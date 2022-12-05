@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MensagemChat } from './lista-conversas/model/chat-web-model.model';
 import { StorageService } from './login/service/storege.service';
 import { LoaderService } from './utils/loader/loader.service';
 import { WebSocketService } from './websocket/web-socket.service';
@@ -32,17 +33,21 @@ export class AppComponent implements OnInit {
     this.monitorarNovasMensagensGrupo();
     this.monitorarNovosGrupos();
     this.monitorarMensagensChatExcluidas();
+    this.monitorarMensagensEditadas();
   }
 
   private monitorarNovasMensagensGrupo() {
     this.webSocketService.mensagemGrupoRecebida.subscribe(mensagem => {
       if (mensagem) {
-        if (this.storageService.getMensagensGrupo().find(m => m.id == mensagem.id) != null) {
+        if (this.storageService.getMensagensGrupo().find(m => m.id == mensagem.id && m.conteudo == mensagem.conteudo) != null) {
           this.storageService.removerMensagemGrupo(mensagem.id);
         } else {
-          if (this.storageService.getListaGrupo().find(g => g.id == mensagem.idGrupo)) {
+          if (this.storageService.getMensagensGrupo().find(m => m.id == mensagem.id && m.conteudo != mensagem.conteudo) != null) {
+            this.storageService.removerMensagemGrupo(mensagem.id);
+            this.storageService.adicionarMensagemGrupo(mensagem);
+          } else if (this.storageService.getListaGrupo().find(g => g.id == mensagem.idGrupo)) {
             let lista = this.storageService.getMensagensGrupo();
-            lista.push(mensagem);
+            lista = lista.concat(mensagem);
             this.storageService.saveMensagensGrupo(lista);
           }
         }
@@ -83,13 +88,13 @@ export class AppComponent implements OnInit {
   private monitorarMensagensChatExcluidas() {
     this.webSocketService.mensagemChatExcluida.subscribe((mensagem) => {
       if (mensagem && this.canDeleteMsg) {
-        if (this.storageService.getUser().listaMensagensEnviadas.find(m => m.id == mensagem.id) != null) {
+        if (this.storageService.getUser().listaMensagensEnviadas.find(m => m.id == mensagem.id && m.conteudo == mensagem.conteudo) != null) {
           let user = this.storageService.getUser();
           user.listaMensagensEnviadas = user.listaMensagensEnviadas.filter(m => m.id != mensagem.id);
           this.storageService.saveUser(user);
           this.canDeleteMsg = false;
         } else {
-          if (this.storageService.getUser().listaMensagensRecebidas.find(m => m.id == mensagem.id) != null) {
+          if (this.storageService.getUser().listaMensagensRecebidas.find(m => m.id == mensagem.id && m.conteudo == mensagem.conteudo) != null) {
             let user = this.storageService.getUser();
             user.listaMensagensRecebidas = user.listaMensagensRecebidas.filter(m => m.id != mensagem.id);
             this.storageService.saveUser(user);
@@ -110,6 +115,26 @@ export class AppComponent implements OnInit {
         }
       }
     });
+  }
+
+  private monitorarMensagensEditadas() {
+    this.webSocketService.mensagemEditada.subscribe(mensagem => {
+      if (mensagem) {
+        if (this.storageService.getUser().listaMensagensEnviadas.find(m => m.id == mensagem.id) != null) {
+          let user = this.storageService.getUser();
+          user.listaMensagensEnviadas = user.listaMensagensEnviadas.filter(m => m.id != mensagem.id);
+          user.listaMensagensEnviadas.push((mensagem as MensagemChat));
+          this.storageService.saveUser(user);
+        } else {
+          if (this.storageService.getUser().listaMensagensRecebidas.find(m => m.id == mensagem.id) != null) {
+            let user = this.storageService.getUser();
+            user.listaMensagensRecebidas = user.listaMensagensRecebidas.filter(m => m.id != mensagem.id);
+            user.listaMensagensRecebidas.push((mensagem as MensagemChat));
+            this.storageService.saveUser(user);
+          }
+        }
+      }
+    })
   }
 
 }

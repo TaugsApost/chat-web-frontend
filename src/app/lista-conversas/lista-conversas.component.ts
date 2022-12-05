@@ -95,15 +95,26 @@ export class ListaConversasComponent implements OnInit {
   }
 
   recebeuMensagem(mensagem: MensagemChat) {
-    this.listaConversas = this.listaConversas.filter(c => mensagem.usernameEmissor != c.usernameEmissor && mensagem.usernameEmissor != c.usernameReceptor);
-    this.listaConversas.push(mensagem);
-    this.ordernarMensagem();
+    let msg = this.listaConversas.find(c => c.usernameEmissor == mensagem.usernameEmissor);
+    if (msg) {
+      if (msg.dataEnvio < mensagem.dataEnvio) {
+        this.listaConversas = this.listaConversas.filter(c => mensagem.usernameEmissor != c.usernameEmissor && mensagem.usernameEmissor != c.usernameReceptor);
+        this.listaConversas.push(mensagem);
+        this.ordernarMensagem();
+      }
+    }
+
   }
 
   enviouMensagem(mensagem: MensagemChat) {
-    this.listaConversas = this.listaConversas.filter(c => mensagem.usernameReceptor != c.usernameReceptor && mensagem.usernameReceptor != c.usernameEmissor);
-    this.listaConversas.push(mensagem);
-    this.ordernarMensagem();
+    let msg = this.listaConversas.find(c => c.usernameReceptor == mensagem.usernameReceptor);
+    if (msg) {
+      if (msg.dataEnvio < mensagem.dataEnvio) {
+        this.listaConversas = this.listaConversas.filter(c => mensagem.usernameReceptor != c.usernameReceptor && mensagem.usernameReceptor != c.usernameEmissor);
+        this.listaConversas.push(mensagem);
+        this.ordernarMensagem();
+      }
+    }
   }
 
   recebeuMensagemGrupo(mensagem: MensagemGrupo) {
@@ -142,16 +153,34 @@ export class ListaConversasComponent implements OnInit {
     this.ordernarMensagem();
   }
 
+  private reorganizarGrupos(idMensagem: number) {
+    let idGrupo = this.storageService.getMensagensGrupo().find(m => m.id == idMensagem)?.idGrupo;
+    if (idGrupo) {
+      this.storageService.removerMensagemGrupo(idMensagem);
+      this.listaGrupo = this.listaGrupo.filter(g => g.id != idGrupo);
+      let grupo = this.storageService.getListaGrupo().find(g => g.id == idGrupo);
+      if (grupo != null) {
+        this.listaGrupo.unshift(grupo);
+      }
+    }
+  }
+
   private monitorarMensagemWebsocket(): void {
     this.webSocketService.mensagemRecebida.subscribe((mensagem) => {
       if (mensagem) {
-        if (this.listaConversas.find(m => m.id == mensagem.id) != null) {
-          this.reorganizarListaConversa(mensagem.id);
+        let msg = this.listaConversas.find(m => m.id == mensagem.id);
+        if (msg) {
+          if (msg.conteudo == mensagem.conteudo) {
+            this.reorganizarListaConversa(mensagem.id);
+          } else {
+            this.editarNomeConversa(mensagem);
+          }
         } else {
           if (mensagem.usernameReceptor == this.storageService.getUsername()) {
             this.recebeuMensagem(mensagem);
           }
           if (mensagem.usernameEmissor == this.storageService.getUsername()) {
+            console.log('afffffffffffffffffffffffffffff')
             this.enviouMensagem(mensagem);
           }
         }
@@ -165,6 +194,7 @@ export class ListaConversasComponent implements OnInit {
       }
     });
     this.monitorarNovosGrupos();
+    //this.monitorarMensagensEditadas();
   }
 
   private monitorarMensagensExcluidas() {
@@ -181,5 +211,11 @@ export class ListaConversasComponent implements OnInit {
         }
       }
     });
+  }
+
+  private editarNomeConversa(mensagem: MensagemChat) {
+    this.listaConversas = this.listaConversas.filter(c => c.id != mensagem.id);
+    this.listaConversas.push(mensagem);
+    this.ordernarMensagem();
   }
 }

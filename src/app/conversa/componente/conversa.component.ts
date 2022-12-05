@@ -71,6 +71,15 @@ export class ConversaComponent implements OnInit {
   private monitorarMensagemWebsocket(): void {
     this.monitorarMensagensRecebidas();
     this.monitorarMensagensExcluidas();
+    this.monitorarMensagensEditadas();
+  }
+
+  private monitorarMensagensEditadas() {
+    this.webSocketService.mensagemEditada.subscribe(mensagem => {
+      if (mensagem) {
+        this.inicializarConversas();
+      }
+    });
   }
 
   private monitorarMensagensRecebidas() {
@@ -94,6 +103,7 @@ export class ConversaComponent implements OnInit {
 
   private salvarMensagem(mensagem: MensagemChat) {
     this.mensagemService.salvarMensagemChat(mensagem).subscribe(novaMsg => {
+      WebSocketService.edicaoMenssagem = false;
       this.enviarMensagemWebsocket(novaMsg);
     });
   }
