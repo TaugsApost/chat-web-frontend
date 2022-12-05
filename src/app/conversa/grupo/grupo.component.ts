@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MensagemGrupo } from 'src/app/lista-conversas/model/chat-web-model.model';
+import { GrupoService } from 'src/app/header/service/grupo.service';
+import { Grupo, MensagemGrupo } from 'src/app/lista-conversas/model/chat-web-model.model';
 import { MensagemService } from 'src/app/lista-conversas/service/mensagem.service';
 import { StorageService } from 'src/app/login/service/storege.service';
 import { WebSocketService } from 'src/app/websocket/web-socket.service';
@@ -16,11 +17,13 @@ export class GrupoComponent implements OnInit {
 
   listaMensagens: MensagemGrupo[] = [];
   _storageService: StorageService;
+  displayModalNome: boolean = false;
 
   constructor(
     private storageService: StorageService,
     private mensagemService: MensagemService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private grupoService: GrupoService,
   ) {
     this._storageService = storageService;
     this.form = new FormGroup({
@@ -77,6 +80,14 @@ export class GrupoComponent implements OnInit {
       }
     });
     this.monitorarMensagensExcluidas();
+    this.webSocketService.nomeGrupoEditado.subscribe(grupo => {
+      if (grupo) {
+        if (this.storageService.getGrupo().id == grupo.id) {
+          this.storageService.saveGrupo(grupo);
+          this.ngOnInit();
+        }
+      }
+    });
   }
 
   private monitorarMensagensExcluidas() {
@@ -93,6 +104,16 @@ export class GrupoComponent implements OnInit {
     this.mensagemService.salvarMensagemGrupo(mensagem).subscribe(msg => {
       this.enviarMensagemWebsocket(msg);
     });
+  }
+
+  mudarNomeGrupo(nome: string) {
+    let grupo = this.storageService.getGrupo();
+    grupo.nome = nome;
+    this.grupoService.salvar(grupo).subscribe((novoGrupo: Grupo) => {
+      //this.storageService.saveGrupo(novoGrupo);
+      this.webSocketService.sendNovoGrupo(novoGrupo);
+    })
+
   }
 
 }

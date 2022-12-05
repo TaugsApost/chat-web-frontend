@@ -3,6 +3,7 @@ import { Component, Directive, HostBinding, Input, OnInit, Optional } from '@ang
 import { ControlContainer, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/login/service/storege.service';
+import { WebSocketService } from 'src/app/websocket/web-socket.service';
 import { Grupo, Mensagem, MensagemGrupo } from '../model/chat-web-model.model';
 import { MensagemService } from '../service/mensagem.service';
 
@@ -20,12 +21,14 @@ export class ItemGrupoComponent implements OnInit {
   private datepipe: DatePipe = new DatePipe('en-US');
 
 
-  constructor(private storageService: StorageService, private msgService: MensagemService, private router: Router) {
+  constructor(private storageService: StorageService, private msgService: MensagemService, private router: Router,
+    private webSocketService: WebSocketService) {
     this.formItemConversa = new FormGroup({
       nomeconversa: new FormControl(''),
       ultimaMensagem: new FormControl(''),
       data: new FormControl('')
     });
+    this.monitorarMudancaGrupo();
   }
 
   ngOnInit(): void {
@@ -50,6 +53,12 @@ export class ItemGrupoComponent implements OnInit {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/home/conversa/grupo']);
     });
+  }
+
+  private monitorarMudancaGrupo() {
+    this.webSocketService.nomeGrupoEditado.subscribe(grupo => {
+      this.ngOnInit();
+    })
   }
 
 }

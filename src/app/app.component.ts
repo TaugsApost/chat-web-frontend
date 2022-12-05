@@ -112,6 +112,13 @@ export class AppComponent implements OnInit {
           if (grupo.listaParticipantes.find(p => p.username == this.storageService.getUsername()) != null) {
             this.storageService.addGrupo(grupo);
           }
+        } else {
+          if (this.storageService.getListaGrupo().find(g => g.id == grupo.id)) {
+            this.storageService.addGrupo(grupo);
+            if (this.storageService.getGrupo().id == grupo.id) {
+              this.storageService.saveGrupo(grupo);
+            }
+          }
         }
       }
     });

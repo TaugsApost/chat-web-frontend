@@ -1,8 +1,37 @@
 <div class="formgrid grid border-1 shadow-5 border-round-md bg-white"
     style="height: 37rem; min-height: 37rem; max-height: 37rem;">
-    <div class="col-12 surface-500 border-bottom-1 shadow-3 border-round-md border-noround-bottom"
+    <div class="col-12 m-0 p-0 flex align-items-center grid surface-500 border-bottom-1 shadow-3 border-round-md border-noround-bottom relative"
         style="height: 10%;">
-        <label class="pt-3 text-xl font-semibold">{{_storageService.getGrupo().nome}}</label>
+        <div class="col-10">
+            <label class="pt-3 text-xl font-semibold">{{_storageService.getGrupo().nome}}</label>
+        </div>
+        <div class="col-2 text-right">
+            <span class="m-0 p-0"
+                pStyleClass="@next"
+                enterClass="hidden"
+                enterActiveClass="scalein"
+                leaveToClass="hidden"
+                leaveActiveClass="fadeout"
+                [hideOnOutsideClick]="true"><i class="pi pi-ellipsis-v border-circle p-1 cursor-pointer"></i></span>
+            <div class="w-max text-left top-100 grid border-1 border-500 hidden absolute shadow-5 py-1 surface-card  z-5">
+                <ul pStyleClass="@parent"
+                    leaveToClass="hidden"
+                    leaveActiveClass="fadeout"
+                    class="list-none p-0 m-0">
+                    <li>
+                        <span (click)="displayModalNome = true"
+                            class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Editar Nome</span>
+                    </li>
+                    <li>
+                        <span class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Adicionar Participante</span>
+                    </li>
+                    <li>
+                        <span class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Sair do Grupo</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </div>
     <div class="col-12 border-round flex flex-wrap-reverse"
         style="height: 70%; overflow-y: auto; ">
@@ -30,3 +59,6 @@
         </form>
     </div>
 </div>
+<modal-nome (nomeContato)="mudarNomeGrupo($event)"
+    (fechar)="displayModalNome = false"
+    [display]="displayModalNome"></modal-nome>

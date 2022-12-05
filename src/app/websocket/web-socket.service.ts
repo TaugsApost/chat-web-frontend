@@ -17,6 +17,7 @@ export class WebSocketService {
   mensagemChatExcluida: BehaviorSubject<MensagemExcluir | null> = new BehaviorSubject<MensagemExcluir | null>(null);
   mensagemEditada: BehaviorSubject<Mensagem | null> = new BehaviorSubject<Mensagem | null>(null);
   contatoEditado: BehaviorSubject<Contato | null> = new BehaviorSubject<Contato | null>(null);
+  nomeGrupoEditado: BehaviorSubject<Grupo | null> = new BehaviorSubject<Grupo | null>(null);
 
   private restMap = packageInfo;
   static edicaoMenssagem: boolean = false;
@@ -41,7 +42,8 @@ export class WebSocketService {
       this.adicionadoEmUmGrupo.next(JSON.parse(event.data));
       this.mensagemChatExcluida.next(JSON.parse(event.data));
       this.mensagemEditada.next(JSON.parse(event.data));
-      this.contatoEditado.next(JSON.parse(event.data))
+      this.contatoEditado.next(JSON.parse(event.data));
+      this.nomeGrupoEditado.next(JSON.parse(event.data));
       //}
     };
 

@@ -55,6 +55,7 @@ export class StorageService {
 
     public addGrupo(grupo: Grupo) {
         let lista = this.getListaGrupo();
+        lista = lista.filter(g => g.id != grupo.id);
         lista.push(grupo);
         this.saveListaGrupo(lista);
     }

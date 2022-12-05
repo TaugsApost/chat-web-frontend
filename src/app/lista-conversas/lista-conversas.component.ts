@@ -46,6 +46,7 @@ export class ListaConversasComponent implements OnInit {
   }
 
   private carregarGrupos() {
+    this.listaGrupo = [];
     this.grupoService.buscarPorUsuario().subscribe(grupos => {
       grupos.forEach(grupo => {
         this.listaGrupo.push(grupo);
@@ -194,6 +195,14 @@ export class ListaConversasComponent implements OnInit {
       }
     });
     this.monitorarNovosGrupos();
+    this.webSocketService.nomeGrupoEditado.subscribe(grupo => {
+      if (grupo) {
+        if (this.listaGrupo.find(g => g.id == grupo.id)) {
+          this.listaGrupo = this.listaGrupo.filter(g => g.id != grupo.id);
+          this.listaGrupo.unshift(grupo);
+        }
+      }
+    })
     //this.monitorarMensagensEditadas();
   }
 
@@ -205,7 +214,8 @@ export class ListaConversasComponent implements OnInit {
     this.webSocketService.adicionadoEmUmGrupo.subscribe(grupo => {
       if (grupo) {
         if (grupo.listaParticipantes != null) {
-          if (grupo.listaParticipantes.find(p => p.username == this.storageService.getUsername()) != null) {
+          if (grupo.listaParticipantes.find(p => p.username == this.storageService.getUsername()
+            && this.listaGrupo.find(g => g.id == grupo.id)) == null) {
             this.listaGrupo.push(grupo);
           }
         }
