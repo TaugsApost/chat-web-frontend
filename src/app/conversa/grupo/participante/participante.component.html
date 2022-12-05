@@ -1,0 +1,30 @@
+<p-dialog [(visible)]="display"
+    (onHide)="fecharModal()"
+    (onShow)="inicializar()"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    [draggable]="false"
+    [resizable]="false"
+    [breakpoints]="{'960px': '75vw'}"
+    header="Adicionar Contato">
+    <form [formGroup]="formulario">
+        <div class="grid text-color">
+            <div class="col-12">
+                <taugs-tabela [dataSource]="datasource"
+                    [tooltip]="'userName'"
+                    [titulo]="'Usuários'"
+                    [columns]="columns"
+                    [habAdicionar]="true"
+                    [habEditar]="false"
+                    [habDeletar]="false"
+                    [habVisualizar]="false"
+                    (editar)="''"
+                    (visualizar)="''"
+                    (deletar)="''"
+                    (adicionar)="adicionarParticipante($event)">
+                </taugs-tabela>
+            </div>
+
+        </div>
+    </form>
+</p-dialog>

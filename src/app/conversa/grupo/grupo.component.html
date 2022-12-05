@@ -23,11 +23,12 @@
                             class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Editar Nome</span>
                     </li>
                     <li>
-                        <span class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Adicionar Participante</span>
+                        <span (click)="displayParticipantes = true"
+                            class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Adicionar Participante</span>
                     </li>
-                    <li>
+                    <!-- <li>
                         <span class="py-1 px-3 block no-underline hover:surface-hover transition-all transition-duration-500 text-black-alpha-90 cursor-pointer">Sair do Grupo</span>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -62,3 +63,5 @@
 <modal-nome (nomeContato)="mudarNomeGrupo($event)"
     (fechar)="displayModalNome = false"
     [display]="displayModalNome"></modal-nome>
+<app-participante [display]="displayParticipantes"
+    (fechar)="displayParticipantes = false"></app-participante>

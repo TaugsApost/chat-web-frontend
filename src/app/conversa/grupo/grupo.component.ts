@@ -18,6 +18,7 @@ export class GrupoComponent implements OnInit {
   listaMensagens: MensagemGrupo[] = [];
   _storageService: StorageService;
   displayModalNome: boolean = false;
+  displayParticipantes: boolean = false;
 
   constructor(
     private storageService: StorageService,
